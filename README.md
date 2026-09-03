@@ -1,3 +1,54 @@
 # EID-s-Adolfo
 Este repositorio tendrá todas las EID´s presentadas por Adolfo Jimenez
-pagina_principal.html
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico de Reportes EID - Sección Roller</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: auto; }
+        .header-card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 25px; text-align: center; }
+        h1 { color: #1e293b; margin: 0 0 10px 0; }
+        p { color: #64748b; margin: 0; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s; border: 2px solid transparent; }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 8px 12px rgba(0,0,0,0.1); border-color: #3b82f6; }
+        .card-title { font-size: 18px; font-weight: bold; color: #1e293b; margin-bottom: 8px; }
+        .card-desc { font-size: 14px; color: #64748b; }
+        .badge { display: inline-block; background-color: #e2e8f0; color: #475569; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: bold; margin-top: 10px; }
+        .badge-active { background-color: #dcfce7; color: #15803d; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-card">
+        <h1>🛼 Panel Principal - EID Sección Roller</h1>
+        <p>Selecciona el mes que deseas visualizar para revisar las gráficas, métricas y decisiones del lineal.</p>
+    </div>
+
+    <div class="grid">
+        <!-- Tarjeta de Junio -->
+        <a href="./junio/" class="card">
+            <div class="card-title">📅 Junio</div>
+            <div class="card-desc">Análisis quincenal, impacto de promociones y ajuste de lineal (Familia 888 y otras).</div>
+            <span class="badge badge-active">Disponible</span>
+        </a>
+
+        <!-- Ejemplo para los siguientes meses (Descomenta conforme los vayas creando) -->
+        <!-- 
+        <a href="./julio/" class="card">
+            <div class="card-title">📅 Julio</div>
+            <div class="card-desc">Reporte mensual de desempeño y ventas.</div>
+            <span class="badge badge-active">Disponible</span>
+        </a>
+        -->
+    </div>
+</div>
+
+</body>
+</html>
