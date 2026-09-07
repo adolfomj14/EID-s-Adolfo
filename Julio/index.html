@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reporte de Desempeño - Sección Roller (julio)</title>
+    <title>Reporte de Desempeño - Sección Roller (Julio)</title>
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -23,20 +23,21 @@
         .highlight-box { background-color: #f0fdf4; border-left: 4px solid #10b981; padding: 15px; border-radius: 6px; margin-top: 15px; }
         ul { padding-left: 20px; }
         .btn-download {
-        display: inline-block;
-        background-color: #2563eb;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: bold;
-        font-size: 14px;
-        transition: background-color 0.2s, transform 0.1s;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: inline-block;
+            background-color: #2563eb;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 15px;
+            transition: background-color 0.2s, transform 0.1s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .btn-download:hover {
-        background-color: #1d4ed8;
-        transform: translateY(-2px);
+            background-color: #1d4ed8;
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -46,14 +47,14 @@
     <!-- Encabezado Principal -->
     <div class="header-card">
         <h1>📊 Reporte de Desempeño - Sección Roller</h1>
-        <p><strong>Mes:</strong> julio | <strong>Progresión General:</strong> <span class="negative">-23,16%</span> | <strong>Delta General:</strong> <span class="negative">-16,2 pts</span></p>
-    </div>
-    </p>
-        <!-- Botón para descargar el PDF subido -->
-        <a href="./EID_agosto.pdf" download class="btn-download">
-            📄 Descargar Documento PDF (Agosto)
+        <p><strong>Mes:</strong> Julio | <strong>Progresión General:</strong> <span class="negative">-23,16%</span> | <strong>Delta General:</strong> <span class="negative">-16,2 pts</span></p>
+        
+        <!-- Botón de descarga corregido -->
+        <a href="./EID_Julio.pdf" download class="btn-download">
+            📄 Descargar Documento PDF (Julio)
         </a>
     </div>
+
     <!-- Resumen General por Familias -->
     <div class="kpi-grid">
         <div class="kpi">
@@ -122,6 +123,8 @@
             <li><strong>Reordenamiento Familia 888:</strong> Implementación de doble bajada para maximizar la exhibición del calzado de adulto.</li>
         </ul>
     </div>
+</div>
+
 <script>
     // Familias con seguimiento quincenal (886, 11630, 1117, 888)
     const labels = ['Fam. 886', 'Fam. 11630', 'Fam. 1117', 'Fam. 888 (Adultos)'];
