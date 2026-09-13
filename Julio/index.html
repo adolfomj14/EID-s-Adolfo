@@ -3,174 +3,1137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reporte de Desempeño - Sección Roller (Julio)</title>
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; color: #333; margin: 0; padding: 20px; }
-        .container { max-width: 1100px; margin: auto; }
-        h1, h2, h3 { color: #1e293b; }
-        .header-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .kpi { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center; }
-        .kpi h3 { margin: 0 0 10px 0; font-size: 14px; color: #64748b; }
-        .kpi .value { font-size: 22px; font-weight: bold; }
-        .negative { color: #ef4444; }
-        .positive { color: #10b981; }
-        .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 20px; margin-bottom: 25px; }
-        .chart-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .content-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; line-height: 1.6; }
-        .highlight-box { background-color: #f0fdf4; border-left: 4px solid #10b981; padding: 15px; border-radius: 6px; margin-top: 15px; }
-        ul { padding-left: 20px; }
-        .btn-download {
-            display: inline-block;
-            background-color: #2563eb;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 14px;
-            margin-top: 15px;
-            transition: background-color 0.2s, transform 0.1s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    <title>EID Julio - Sección Roller | Adolfo Jimenez</title>
+    <!-- Chart.js local y CDN como respaldo -->
+    <script src="./chart.umd.min.js"></script>
+    <script>
+        if (typeof Chart === 'undefined') {
+            document.write('<script src="https://cdn.jsdelivr.net/npm/chart.js"><\/script>');
         }
-        .btn-download:hover {
-            background-color: #1d4ed8;
-            transform: translateY(-2px);
+    </script>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --primary-bg: #eff6ff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --bg-page: #f8fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --success: #059669;
+            --success-bg: #ecfdf5;
+            --success-border: #a7f3d0;
+            --danger: #dc2626;
+            --danger-bg: #fef2f2;
+            --danger-border: #fecaca;
+            --warning: #d97706;
+            --warning-bg: #fffbeb;
+            --warning-border: #fde68a;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding-bottom: 50px;
+        }
+
+        /* Top Navigation Bar */
+        .top-navbar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+        }
+        .brand {
+            font-weight: 700;
+            font-size: 17px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        .nav-link:hover {
+            background-color: #f1f5f9;
+            color: var(--text-main);
+        }
+        .nav-link.active {
+            background-color: var(--primary-bg);
+            color: var(--primary-light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 24px auto;
+            padding: 0 20px;
+        }
+
+        /* Header Hero */
+        .hero-card {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .hero-info h1 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+        .hero-info p {
+            color: #bfdbfe;
+            font-size: 15px;
+            max-width: 700px;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .btn-white {
+            background: white;
+            color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+        .btn-white:hover {
+            background: #f8fafc;
+            transform: translateY(-1px);
+        }
+
+        /* KPI Banner */
+        .summary-banner {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .metric-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 20px;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+        .metric-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--primary-light);
+        }
+        .metric-card.danger::before { background: var(--danger); }
+        .metric-card.success::before { background: var(--success); }
+        .metric-card.warning::before { background: var(--warning); }
+        
+        .metric-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .metric-value-row {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+        }
+        .metric-value {
+            font-size: 26px;
+            font-weight: 800;
+        }
+        .metric-sub {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .tag-positive { color: var(--success); }
+        .tag-negative { color: var(--danger); }
+
+        /* Section Headings */
+        .section-header {
+            margin-bottom: 16px;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* Charts Section */
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .chart-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+        }
+        .chart-card h3 {
+            font-size: 16px;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+        .chart-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .legend-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 3px;
+            vertical-align: middle;
+        }
+        .dot-blue { background-color: #3b82f6; }
+        .dot-green { background-color: #10b981; }
+        .badge-impact {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 9999px;
+            margin-left: 6px;
+            white-space: nowrap;
+            vertical-align: middle;
+            line-height: 1.2;
+        }
+        .badge-impact-success { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+        .badge-impact-info { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+        .badge-impact-neutral { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            min-height: 260px;
+        }
+
+        /* Strategy Cards: Cause - Action - Effect */
+        .strategy-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+        .action-card {
+            background: white;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+        .action-card-header {
+            padding: 16px 22px;
+            background: #f8fafc;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .action-card-header h3 {
+            font-size: 17px;
+            color: #0f172a;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .badge-pill {
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .pill-blue { background: var(--primary-bg); color: var(--primary-light); }
+        .pill-green { background: var(--success-bg); color: var(--success); }
+        .pill-red { background: var(--danger-bg); color: var(--danger); }
+
+        .action-body {
+            padding: 22px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .action-column {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .column-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .column-box {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 14px;
+            border: 1px solid var(--border);
+            height: 100%;
+            font-size: 14px;
+        }
+        .box-diag { border-left: 4px solid #94a3b8; }
+        .box-action { border-left: 4px solid var(--primary-light); background: #f0f7ff; }
+        .box-result { border-left: 4px solid var(--success); background: #f0fdf4; }
+
+        /* Product Gallery Inside Card */
+        .product-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+        }
+        .product-thumb-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+        .product-thumb-card img {
+            width: 100%;
+            height: 90px;
+            object-fit: contain;
+            margin-bottom: 6px;
+        }
+        .product-ref {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .product-name {
+            font-size: 12px;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* Lineal Visual Proof Photos */
+        .lineal-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .lineal-photo-box {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .lineal-photo-box img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+        }
+        .photo-caption {
+            padding: 12px 14px;
+            font-size: 13px;
+        }
+        .photo-badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+        .badge-before { background: var(--danger-bg); color: var(--danger); }
+        .badge-after { background: var(--success-bg); color: var(--success); }
+
+        /* Tables */
+        .table-responsive {
+            overflow-x: auto;
+            margin-top: 14px;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+        }
+        .data-table th {
+            background: #f1f5f9;
+            color: #334155;
+            font-weight: 700;
+            padding: 10px 14px;
+            border-bottom: 2px solid var(--border);
+        }
+        .data-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border);
+        }
+        .data-table tr:hover { background-color: #f8fafc; }
+        .rank-medal {
+            display: inline-block;
+            width: 20px;
+            font-weight: 800;
+        }
+
+        /* Footer */
+        footer {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .charts-container { grid-template-columns: 1fr; }
+            .hero-card { flex-direction: column; align-items: flex-start; }
+            .hero-actions { width: 100%; }
+            .btn { width: 100%; justify-content: center; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- Encabezado Principal -->
-    <div class="header-card">
-        <h1>📊 Reporte de Desempeño - Sección Roller</h1>
-        <p><strong>Mes:</strong> Julio | <strong>Progresión General:</strong> <span class="negative">-23,16%</span> | <strong>Delta General:</strong> <span class="negative">-16,2 pts</span></p>
-        
-        <!-- Botón de descarga corregido -->
-        <a href="./EID_Julio.pdf" download class="btn-download">
-            📄 Descargar Documento PDF (Julio)
-        </a>
-    </div>
-
-    <!-- Resumen General por Familias -->
-    <div class="kpi-grid">
-        <div class="kpi">
-            <h3>Familia 886</h3>
-            <div class="value negative">-36,29%</div>
-            <small>Delta: -33,46 pts</small>
-        </div>
-        <div class="kpi">
-            <h3>Familia 888 (Adultos)</h3>
-            <div class="value positive">+46,84%</div>
-            <small>Delta: +39,78 pts</small>
-        </div>
-        <div class="kpi">
-            <h3>Familia 11630</h3>
-            <div class="value negative">-12,90%</div>
-            <small>Delta: +1,44 pts</small>
-        </div>
-        <div class="kpi">
-            <h3>Familia 1117</h3>
-            <div class="value negative">-53,25%</div>
-            <small>Delta: -41,50 pts</small>
-        </div>
-    </div>
-
-    <!-- Gráficas de Comparación Quincenal -->
-    <div class="charts-grid">
-        <div class="chart-card">
-            <h2>Evolución Progresión (%) 1ª vs 2ª Mitad</h2>
-            <canvas id="progressionChart"></canvas>
-        </div>
-        <div class="chart-card">
-            <h2>Evolución Delta (Pts) 1ª vs 2ª Mitad</h2>
-            <canvas id="deltaChart"></canvas>
-        </div>
-    </div>
-
-    <!-- Sección Especial: Familia 888 (Patines Adulto) -->
-    <div class="content-card">
-        <h2>⛸️ Análisis Especial: Familia 888 (Patines de Adulto)</h2>
-        <p>Se realizó un cambio estructural en el lineal para mejorar la visibilidad, otorgando <strong>doble bajada</strong> a todos los patines de adultos.</p>
-        
-        <div class="kpi-grid" style="margin-top: 15px;">
-            <div class="kpi" style="background: #f8fafc;">
-                <h3>1ª Mitad del Mes (01-15 Jun)</h3>
-                <div class="value positive">Prog: +118,17%</div>
-                <small>Delta: +102,36 pts</small>
+    <!-- Navegación Superior -->
+    <header class="top-navbar">
+        <div class="nav-container">
+            <div class="brand">
+                <span>🛼</span>
+                <span>EID Roller | Adolfo Jimenez</span>
             </div>
-            <div class="kpi" style="background: #f8fafc;">
-                <h3>2ª Mitad del Mes (16-30 Jun)</h3>
-                <div class="value positive">Prog: +4,48%</div>
-                <small>Delta: +5,48 pts</small>
+            <nav class="nav-links">
+                <a href="../index.html" class="nav-link">🏠 Inicio</a>
+                <a href="./index.html" class="nav-link active">📅 Julio</a>
+                <a href="../agosto/index.html" class="nav-link">📅 Agosto</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <!-- Tarjeta Principal de Julio -->
+        <section class="hero-card">
+            <div class="hero-info">
+                <h1>📊 Reporte de Desempeño: Julio</h1>
+                <p>Evolución quincenal de la sección de Roller (Tienda 2208 - La Flora), análisis de decisiones sobre el lineal (DAO), dobles bajadas y respuesta comercial en las familias principales.</p>
+            </div>
+            <div class="hero-actions">
+                <a href="./EID_Julio.pdf" download class="btn btn-white">
+                    📄 Descargar PDF Original (Julio)
+                </a>
+            </div>
+        </section>
+
+        <!-- Banner de Métricas Globales del Mes (Protagonismo Exclusivo) -->
+        <section class="summary-banner" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+            <div class="metric-card danger">
+                <div class="metric-title">Progresión General (Mes)</div>
+                <div class="metric-value-row">
+                    <span class="metric-value tag-negative">-23,16%</span>
+                </div>
+                <div class="metric-sub">Crecimiento general de la sección vs. año anterior</div>
+            </div>
+            <div class="metric-card danger">
+                <div class="metric-title">Delta General (Mes)</div>
+                <div class="metric-value-row">
+                    <span class="metric-value tag-negative">-16,2 pts</span>
+                </div>
+                <div class="metric-sub">Diferencia general de la sección vs. objetivo de tienda</div>
+            </div>
+        </section>
+
+        <!-- Gráficas de Evolución Quincenal -->
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">📈 Comparación Quincenal de Familias Clave</h2>
+                <div class="section-desc">Impacto directo entre la 1ª Mitad (01 al 15 de julio) y la 2ª Mitad (16 al 31 de julio) tras aplicar las estrategias comerciales</div>
             </div>
         </div>
 
-        <div class="highlight-box">
-            <strong>💡 Conclusión de la estrategia:</strong> Aunque en la segunda mitad la tasa de crecimiento (%) desaceleró frente al pico inicial, <strong>los modelos TOP mejoraron significativamente en Delta y Progresión</strong> con respecto a la primera mitad, logrando dinamizar la venta general de todos los modelos de la categoría.
+        <div class="charts-container">
+            <div class="chart-card">
+                <h3>Evolución de Progresión (%) por Familia</h3>
+                <div class="chart-subtitle">
+                    <span><span class="legend-dot dot-blue"></span> <strong>1ª Mitad</strong> (01 al 15 Jul)</span>
+                    <span style="color: var(--border);">|</span>
+                    <span><span class="legend-dot dot-green"></span> <strong>2ª Mitad</strong> (16 al 31 Jul)</span>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="progressionChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <h3>Evolución de Delta (Pts) por Familia</h3>
+                <div class="chart-subtitle">
+                    <span><span class="legend-dot dot-blue"></span> <strong>1ª Mitad</strong> (01 al 15 Jul)</span>
+                    <span style="color: var(--border);">|</span>
+                    <span><span class="legend-dot dot-green"></span> <strong>2ª Mitad</strong> (16 al 31 Jul)</span>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="deltaChart"></canvas>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <!-- Acciones Implementadas -->
-    <div class="content-card">
-        <h2>🛠️ Plan de Acción Implementadas</h2>
-        <ul>
-            <li><strong>Mayor visibilidad y push de stock en lineal:</strong> Patín (8580560), Protección (8605509) y Casco (8586685).</li>
-            <li><strong>Alineación según DAO:</strong> Reabastecimiento de stock en referencias <em>Fit 3 Rojo (8739812)</em> y <em>Fit 5 Azul (8828265)</em> para corregir modificaciones previas que afectaban las ventas.</li>
-            <li><strong>Reordenamiento Familia 888:</strong> Implementación de doble bajada para maximizar la exhibición del calzado de adulto.</li>
-        </ul>
-    </div>
-</div>
+        <!-- Acciones Detalladas: Causa - Acción - Efecto -->
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">🎯 Estrategias por Familia: Diagnóstico, Decisión y Resultado</h2>
+                <div class="section-desc">Detalle específico de qué problema se detectó, qué acción se ejecutó con cada referencia y qué cifra se obtuvo</div>
+            </div>
+        </div>
 
-<script>
-    // Familias con seguimiento quincenal (886, 11630, 1117, 888)
-    const labels = ['Fam. 886', 'Fam. 11630', 'Fam. 1117', 'Fam. 888 (Adultos)'];
+        <div class="strategy-grid">
 
-    // Gráfica de Progresión (%)
-    new Chart(document.getElementById('progressionChart'), {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [
-                { 
-                    label: '1ª Mitad (01-15 Jun)', 
-                    data: [-46.61, -39.48, -62.95, 118.17], 
-                    backgroundColor: ['#f87171', '#f87171', '#f87171', '#34d399'] 
-                },
-                { 
-                    label: '2ª Mitad (16-30 Jun)', 
-                    data: [-19.19, 22.66, -36.50, 4.48], 
-                    backgroundColor: ['#fca5a5', '#10b981', '#fca5a5', '#6ee7b7'] 
-                }
-            ]
-        },
-        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
-    });
+            <!-- CASO 1: Familia 888 (Patines Adulto) -->
+            <article class="action-card">
+                <div class="action-card-header">
+                    <h3>⛸️ Familia 888: Patines de Adulto</h3>
+                    <span class="badge-pill pill-green">Resultado Mensual: Prog +46,84% | Delta +39,78 pts</span>
+                </div>
+                <div class="action-body">
+                    <div class="action-column">
+                        <span class="column-label">🔍 1. Diagnóstico Inicial (01-15 Jul)</span>
+                        <div class="column-box box-diag">
+                            <p><strong>Cifras 1ª Mitad:</strong> Progresión <strong>+118,17%</strong> | Delta <strong>+102,36 pts</strong> (Facturación: 2.834.000 COP).</p>
+                            <p style="margin-top: 8px;">Aunque la categoría arrancó con gran fuerza por el impulso inicial, era indispensable asegurar una disposición física que dinamizara todos los modelos de la gama y no solo los de mayor precio.</p>
+                        </div>
+                    </div>
+                    <div class="action-column">
+                        <span class="column-label">⚙️ 2. Estrategia y Acción Aplicada</span>
+                        <div class="column-box box-action">
+                            <p><strong>Implementación de Doble Bajada:</strong> Se reestructuró por completo la exhibición física del lineal, asignando <em>doble bajada</em> (dos columnas verticales consecutivas) a todos los patines de adultos.</p>
+                            <p style="margin-top: 8px;"><strong>Objetivo:</strong> Maximizar la visibilidad del calzado de adulto para el cliente y permitir la exposición simultánea de toda la curva de modelos.</p>
+                        </div>
+                    </div>
+                    <div class="action-column">
+                        <span class="column-label">📊 3. Resultado Obtenido (16-31 Jul)</span>
+                        <div class="column-box box-result">
+                            <p><strong>Cifras 2ª Mitad:</strong> Progresión <strong>+4,48%</strong> | Delta <strong>+5,48 pts</strong> (Facturación: 2.285.000 COP).</p>
+                            <p style="margin-top: 8px;"><strong>Impacto en TOP Models:</strong> Si bien el porcentaje global desaceleró frente al pico inicial, <em>los modelos líderes aumentaron sustancialmente su rendimiento y dinamizaron la categoría</em>:</p>
+                            <ul style="margin-top: 6px; padding-left: 18px; font-size: 13px;">
+                                <li><strong>Ref. 8735491 (ILS MF140):</strong> Pasó a liderar el ranking (Rank 1) con <strong>Delta +56,78 pts</strong> y Prog <strong>+13,55%</strong>.</li>
+                                <li><strong>Ref. 8561743 (ILS FIT500 W ICE GREY):</strong> Revirtió su caída, pasando de un Delta negativo de <strong>-20,1 pts</strong> en la 1ª mitad a <strong>+21,31 pts</strong> en la 2ª mitad (Prog +13,36%).</li>
+                                <li><strong>Ref. 8614734 (ILS FIT100 M):</strong> Creció en volumen facturando 957.000 COP con Prog <strong>+10,38%</strong>.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
 
-    // Gráfica de Delta (Pts)
-    new Chart(document.getElementById('deltaChart'), {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [
-                { 
-                    label: '1ª Mitad (01-15 Jun)', 
-                    data: [-43.71, -26.01, -50.67, 102.36], 
-                    backgroundColor: ['#fb923c', '#fb923c', '#fb923c', '#60a5fa'] 
-                },
-                { 
-                    label: '2ª Mitad (16-30 Jun)', 
-                    data: [-16.45, 37.90, -25.39, 5.48], 
-                    backgroundColor: ['#fed7aa', '#3b82f6', '#fed7aa', '#93c5fd'] 
-                }
-            ]
-        },
-        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
-    });
-</script>
+                <!-- Tablas de Top Models extraídas de las imágenes del PDF -->
+                <div style="padding: 0 22px 22px;">
+                    <h4 style="font-size: 14px; margin-bottom: 8px; color: var(--text-muted); font-weight: 700;">
+                        📋 Comparativa Oficial de Modelos de Patines Adulto - Familia 888 (Datos Sistema Tienda 2208 - La Flora):
+                    </h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px;">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="4" style="background:#eff6ff; color:#1e3a8a; border-top: 3px solid #3b82f6; text-align: left; padding: 10px 14px;">
+                                            <span class="legend-dot dot-blue"></span> <strong>1ª Mitad (01 al 15 Jul)</strong> - Patines Adulto (Total: 2.834.000 COP / +118,17%)
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Rank / Ref</th>
+                                        <th>Modelo (Patín Adulto)</th>
+                                        <th>Delta</th>
+                                        <th>Prog GMV</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="rank-medal">🥇</span> 8561743</td>
+                                        <td>ILS FIT500 W ICE GREY (Adulto)</td>
+                                        <td class="tag-negative">-20,10 pts</td>
+                                        <td class="tag-positive">+13,36%</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">🥈</span> 8738742</td>
+                                        <td>ILS MF500 HB GREYLO (Adulto)</td>
+                                        <td>-</td>
+                                        <td>798.000 COP</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">🥉</span> 8561739</td>
+                                        <td>ILS FIT500 M NAVY RED (Adulto)</td>
+                                        <td>-</td>
+                                        <td>250.000 COP</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">4</span> 8614734</td>
+                                        <td>ILS FIT100 M (Adulto)</td>
+                                        <td>-</td>
+                                        <td>638.000 COP</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">5</span> 8654643</td>
+                                        <td>ILS MF S 900 (Adulto)</td>
+                                        <td>-</td>
+                                        <td>639.000 COP</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="4" style="background:#ecfdf5; color:#065f46; border-top: 3px solid #10b981; text-align: left; padding: 10px 14px;">
+                                            <span class="legend-dot dot-green"></span> <strong>2ª Mitad (16 al 31 Jul)</strong> - Patines Adulto (Total: 2.285.000 COP / +4,48%)
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Rank / Ref</th>
+                                        <th>Modelo (Patín Adulto)</th>
+                                        <th>Delta</th>
+                                        <th>Prog GMV</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="rank-medal">🥇</span> 8735491</td>
+                                        <td>ILS MF140 (Adulto) <span class="badge-impact badge-impact-success">👑 Nuevo Top 1</span></td>
+                                        <td class="tag-positive"><strong>+56,78 pts</strong></td>
+                                        <td class="tag-positive"><strong>+13,55%</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">🥈</span> 8561743</td>
+                                        <td>ILS FIT500 W ICE GREY (Adulto) <span class="badge-impact badge-impact-success">▲ +41,4 pts (Revertido)</span></td>
+                                        <td class="tag-positive"><strong>+21,31 pts</strong></td>
+                                        <td class="tag-positive">+13,36%</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">🥉</span> 8614734</td>
+                                        <td>ILS FIT100 M (Adulto) <span class="badge-impact badge-impact-info">▲ +49,9% Facturación</span></td>
+                                        <td class="tag-negative">-14,43 pts</td>
+                                        <td class="tag-positive"><strong>+10,38%</strong> (957k COP)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">4</span> 8641422</td>
+                                        <td>ILS MF S 500 (Adulto) <span class="badge-impact badge-impact-neutral">Top 4</span></td>
+                                        <td>-</td>
+                                        <td>400.000 COP</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- CASO 2: Alineación al DAO y Gestión de Lineal (Familias 886, 11630, 1117) -->
+            <article class="action-card">
+                <div class="action-card-header">
+                    <h3>📐 Corrección del Lineal según DAO y Push de Referencias Clave</h3>
+                    <span class="badge-pill pill-blue">Fam. 886 (Patines Niños), Fam. 11630 (Cascos Niños), Fam. 1117 (Protecciones Niños)</span>
+                </div>
+                <div class="action-body">
+                    <div class="action-column">
+                        <span class="column-label">🔍 1. Diagnóstico Inicial (01-15 Jul)</span>
+                        <div class="column-box box-diag">
+                            <p><strong>Fuerte retroceso en la 1ª mitad del mes:</strong></p>
+                            <ul style="margin-top: 6px; padding-left: 18px; font-size: 13px;">
+                                <li><strong>Fam. 886 (Patines Niños):</strong> Prog <span class="tag-negative">-46,61%</span> | Delta <span class="tag-negative">-43,71 pts</span></li>
+                                <li><strong>Fam. 11630 (Cascos Niños):</strong> Prog <span class="tag-negative">-39,48%</span> | Delta <span class="tag-negative">-26,01 pts</span></li>
+                                <li><strong>Fam. 1117 (Protecciones Niños):</strong> Prog <span class="tag-negative">-62,95%</span> | Delta <span class="tag-negative">-50,67 pts</span></li>
+                            </ul>
+                            <p style="margin-top: 8px;"><strong>Causa detectada:</strong> El lineal físico se había desorganizado y modificado previamente debido a falta puntual de existencias, sacrificando la visualización de referencias estratégicas y perjudicando directamente las ventas.</p>
+                        </div>
+                    </div>
+                    <div class="action-column">
+                        <span class="column-label">⚙️ 2. Estrategia y Acciones Ejecutadas</span>
+                        <div class="column-box box-action">
+                            <p><strong>1. Acomodación del lineal de acuerdo al DAO:</strong> Se gestionó stock suficiente de las referencias <em>Fit 3 Rojo (8739812 - Patín Niño)</em> y <em>Fit 5 Azul (8828265 - Patín Niño)</em> para restituir las posiciones y alturas oficiales en góndola.</p>
+                            <p style="margin-top: 8px;"><strong>2. Push comercial y mayor visibilidad:</strong> A partir de la segunda mitad se focalizó la promoción dándole mayor protagonismo y push de inventario a 3 artículos clave de la categoría infantil:</p>
+                            
+                            <!-- Mini galería de productos en push -->
+                            <div class="product-gallery">
+                                <div class="product-thumb-card">
+                                    <img src="./img/page1_img1_X5.png" alt="Patín Niño 8580560">
+                                    <div class="product-ref">Ref. 8580560</div>
+                                    <div class="product-name">Patín de Niño</div>
+                                </div>
+                                <div class="product-thumb-card">
+                                    <img src="./img/page1_img4_X9.png" alt="Protección Niño 8605509">
+                                    <div class="product-ref">Ref. 8605509</div>
+                                    <div class="product-name">Kit Protección Niño</div>
+                                </div>
+                                <div class="product-thumb-card">
+                                    <img src="./img/page1_img5_X10.png" alt="Casco Niño 8586685">
+                                    <div class="product-ref">Ref. 8586685</div>
+                                    <div class="product-name">Casco Niño (Rosado)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-column">
+                        <span class="column-label">📊 3. Resultado Obtenido (16-31 Jul)</span>
+                        <div class="column-box box-result">
+                            <p><strong>Recuperación y Reversión en la 2ª mitad:</strong></p>
+                            <ul style="margin-top: 8px; padding-left: 18px; font-size: 13px;">
+                                <li>
+                                    <strong>Fam. 11630 (Cascos Niños):</strong> Pasó de -39,48% a <strong class="tag-positive">+22,66%</strong> de progresión y Delta de <strong class="tag-positive">+37,90 pts</strong>. <em>¡Se logró revertir la cifra a positivo!</em>
+                                </li>
+                                <li>
+                                    <strong>Fam. 886 (Patines Niños):</strong> Redujo fuertemente la caída: Prog de -46,61% a <strong>-19,19%</strong> (+27,42 pts) y Delta de -43,71 a <strong>-16,45 pts</strong> (+27,26 pts).
+                                </li>
+                                <li>
+                                    <strong>Fam. 1117 (Protecciones Niños):</strong> Redujo drásticamente el retroceso: Prog de -62,95% a <strong>-36,50%</strong> (+26,45 pts) y Delta de -50,67 a <strong>-25,39 pts</strong> (+25,28 pts).
+                                </li>
+                            </ul>
+                            <p style="margin-top: 8px; font-size: 12px; color: var(--text-muted);">
+                                <em>Conclusión del documento: A pesar de que dos familias cerraron en negativo, las regresiones disminuyeron significativamente en comparación con la primera mitad gracias a la restitución del DAO y el stock de apoyo.</em>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Evidencia Fotográfica Real del Lineal (Documento PDF) -->
+                <div style="padding: 0 22px 14px;">
+                    <h4 style="font-size: 14px; margin-bottom: 8px; color: var(--text-muted); font-weight: 700;">
+                        📸 Evidencia en Tienda: Reordenamiento del Lineal de acuerdo al DAO
+                    </h4>
+                    <div class="lineal-comparison">
+                        <div class="lineal-photo-box">
+                            <img src="./img/page1_img3_X8.jpg" alt="Lineal previo con faltantes">
+                            <div class="photo-caption">
+                                <span class="photo-badge badge-before">Estado Previo</span>
+                                <p style="font-size: 12px; color: var(--text-muted);">Falta de stock y alteración del DAO: huecos en lineal e invisibilización de referencias Fit 3 rojo (niño) y Fit 5 azul (niño).</p>
+                            </div>
+                        </div>
+                        <div class="lineal-photo-box">
+                            <img src="./img/page1_img2_X7.jpg" alt="Lineal alineado al DAO con stock completo">
+                            <div class="photo-caption">
+                                <span class="photo-badge badge-after">Lineal Corregido según DAO</span>
+                                <p style="font-size: 12px; color: var(--text-muted);">Reabastecimiento completado: exhibición completa con doble bajada en patines de adulto y combinación con cascos de niño y protecciones de niño.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tablas de Top Models Familia 886 extraídas del sistema -->
+                <div style="padding: 14px 22px 18px; border-top: 1px solid var(--border);">
+                    <h4 style="font-size: 14px; margin-bottom: 8px; color: var(--text-muted); font-weight: 700;">
+                        📋 Comparativa Oficial de Modelos - Familia 886 (Patines Niños) | Tienda 2208 - La Flora:
+                    </h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px;">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="4" style="background:#eff6ff; color:#1e3a8a; border-top: 3px solid #3b82f6; text-align: left; padding: 10px 14px;">
+                                            <span class="legend-dot dot-blue"></span> <strong>1ª Mitad (01 al 15 Jul)</strong> - Patines Niños (Total: 2.766.000 CO$ | Prog: -46,61%)
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Rank / Ref</th>
+                                        <th>Modelo (Patín Niño)</th>
+                                        <th>Delta</th>
+                                        <th>Prog GMV</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="rank-medal">🥇</span> 8580560</td>
+                                        <td>RS ILS FIT3 ABYSS (Niño)</td>
+                                        <td class="tag-negative">-25,82 pts</td>
+                                        <td class="tag-negative">-21,57% (781k CO$)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">🥈</span> 8580534</td>
+                                        <td>RS ILS FIT5 PINK KHAKI (Niño)</td>
+                                        <td class="tag-positive">+98,74 pts</td>
+                                        <td class="tag-positive">+124,32% (738k CO$)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">🥉</span> 8739813</td>
+                                        <td>ILS FIT3 BLACK KHAKI (Niño)</td>
+                                        <td class="tag-positive">+24,87 pts</td>
+                                        <td class="tag-positive">+12,05% (558k CO$)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">4</span> 8580562</td>
+                                        <td>ILS LEARN100 JR CAKTUS BEIGE (Niño)</td>
+                                        <td class="tag-negative">-26,82 pts</td>
+                                        <td class="tag-positive">+95,39% (297k CO$)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">5</span> 8739811</td>
+                                        <td>RS ILS PLAY5 GIRL ACIDBUL (Niño)</td>
+                                        <td class="tag-negative">-38,48 pts</td>
+                                        <td class="tag-negative">-72,35% (209k CO$)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="4" style="background:#ecfdf5; color:#065f46; border-top: 3px solid #10b981; text-align: left; padding: 10px 14px;">
+                                            <span class="legend-dot dot-green"></span> <strong>2ª Mitad (16 al 31 Jul)</strong> - Patines Niños (Total: 2.622.200 CO$ | Prog: -28,08%)
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Rank / Ref</th>
+                                        <th>Modelo (Patín Niño)</th>
+                                        <th>Delta</th>
+                                        <th>Prog GMV</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="rank-medal">🥇</span> 8580534</td>
+                                        <td>RS ILS FIT5 PINK KHAKI (Niño) <span class="badge-impact badge-impact-neutral">Líder Top 1 Volumen</span></td>
+                                        <td class="tag-negative">-37,93 pts</td>
+                                        <td class="tag-negative">-43,92% (738k CO$)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">🥈</span> 8580560</td>
+                                        <td>RS ILS FIT3 ABYSS (Niño - Push) <span class="badge-impact badge-impact-success">▲ Revertido (+29,7 pts)</span></td>
+                                        <td class="tag-positive"><strong>+3,92 pts</strong> (Revertido)</td>
+                                        <td class="tag-positive"><strong>+0,84%</strong> (502k CO$)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">🥉</span> 8580562</td>
+                                        <td>ILS LEARN100 JR CAKTUS BEIGE (Niño) <span class="badge-impact badge-impact-success">▲ Salto +89,1 pts</span></td>
+                                        <td class="tag-positive"><strong>+62,31 pts</strong></td>
+                                        <td class="tag-positive"><strong>+160,53%</strong> (396k CO$)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">4</span> 8828265</td>
+                                        <td>ILS FIT5 JR BLUE WHITE FW24 (DAO) <span class="badge-impact badge-impact-info">⭐ Ingreso al Top 4 (DAO)</span></td>
+                                        <td>-</td>
+                                        <td>369.000 CO$</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">5</span> 8739813</td>
+                                        <td>ILS FIT3 BLACK KHAKI (Niño) <span class="badge-impact badge-impact-neutral">Top 5</span></td>
+                                        <td class="tag-negative">-73,97 pts</td>
+                                        <td class="tag-negative">-62,65% (279k CO$)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tablas de Top Models Familia 11630 extraídas del sistema -->
+                <div style="padding: 14px 22px 22px; border-top: 1px solid var(--border);">
+                    <h4 style="font-size: 14px; margin-bottom: 8px; color: var(--text-muted); font-weight: 700;">
+                        📋 Comparativa Oficial de Modelos - Familia 11630 (Cascos Niños) | Tienda 2208 - La Flora:
+                    </h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px;">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="4" style="background:#eff6ff; color:#1e3a8a; border-top: 3px solid #3b82f6; text-align: left; padding: 10px 14px;">
+                                            <span class="legend-dot dot-blue"></span> <strong>1ª Mitad (01 al 15 Jul)</strong> - Cascos Niños (Total: 1.619.000 CO$ | Prog: -41,02%)
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Rank / Ref</th>
+                                        <th>Modelo (Casco Niño)</th>
+                                        <th>Delta</th>
+                                        <th>Prog GMV</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="rank-medal">🥇</span> 8552048</td>
+                                        <td>H MF500 BLACK (Niño)</td>
+                                        <td class="tag-negative">-23,36 pts</td>
+                                        <td class="tag-negative">-45,00% (495k CO$)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">🥈</span> 8586685</td>
+                                        <td>H MF500 BRIDAL ROSE (Niño)</td>
+                                        <td class="tag-negative">-21,64 pts</td>
+                                        <td class="tag-negative">-26,67% (396k CO$)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">🥉</span> 8984803</td>
+                                        <td>ILS H B100 LILA (Niño)</td>
+                                        <td>-</td>
+                                        <td>316.000 CO$</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">4</span> 8796158</td>
+                                        <td>H MF540 ED LIM LILA (Niño)</td>
+                                        <td>-</td>
+                                        <td>135.000 CO$</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">5</span> 8737231</td>
+                                        <td>H MF500 LIGHT KHAKI (Niño)</td>
+                                        <td class="tag-negative">-29,86 pts</td>
+                                        <td class="tag-negative">-45,00% (99k CO$)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="4" style="background:#ecfdf5; color:#065f46; border-top: 3px solid #10b981; text-align: left; padding: 10px 14px;">
+                                            <span class="legend-dot dot-green"></span> <strong>2ª Mitad (16 al 31 Jul)</strong> - Cascos Niños (Total: 2.453.100 CO$ | Prog: +18,51%)
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Rank / Ref</th>
+                                        <th>Modelo (Casco Niño)</th>
+                                        <th>Delta</th>
+                                        <th>Prog GMV</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="rank-medal">🥇</span> 8552048</td>
+                                        <td>H MF500 BLACK (Niño) <span class="badge-impact badge-impact-success">▲ Revertido (+82,8 pts)</span></td>
+                                        <td class="tag-positive"><strong>+59,47 pts</strong> (Revertido)</td>
+                                        <td class="tag-positive"><strong>+10,00%</strong> (594k CO$)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">🥈</span> 8982314</td>
+                                        <td>H MF500 BLUE (Niño) <span class="badge-impact badge-impact-info">⭐ Nuevo Top 2 (495k)</span></td>
+                                        <td>-</td>
+                                        <td>495.000 CO$</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">🥉</span> 8796158</td>
+                                        <td>H MF540 ED LIM LILA (Niño) <span class="badge-impact badge-impact-success">▲ Crecimiento Explosivo (+211 pts)</span></td>
+                                        <td class="tag-positive"><strong>+211,94 pts</strong></td>
+                                        <td class="tag-positive"><strong>+252,17%</strong> (405k CO$)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">4</span> 8984803</td>
+                                        <td>ILS H B100 LILA (Niño) <span class="badge-impact badge-impact-neutral">Estable Top 4</span></td>
+                                        <td>-</td>
+                                        <td>316.000 CO$</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="rank-medal">5</span> 8586684</td>
+                                        <td>H MF500 WHITE (Niño) <span class="badge-impact badge-impact-success">▲ Salto Masivo (+192 pts)</span></td>
+                                        <td class="tag-positive"><strong>+192,76 pts</strong></td>
+                                        <td class="tag-positive"><strong>+230,00%</strong> (297k CO$)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+    </main>
+
+    <footer>
+        <p>Reporte Individual de Desempeño (EID) - Sección Roller | Datos extraídos fielmente de <code>EID_Julio.pdf</code></p>
+    </footer>
+
+    <script>
+        function initCharts() {
+            if (typeof Chart === 'undefined') {
+                console.error('Chart.js no está disponible.');
+                return;
+            }
+
+            const labels = ['Fam. 886 (Patines Niños)', 'Fam. 11630 (Cascos Niños)', 'Fam. 1117 (Protecciones Niños)', 'Fam. 888 (Patines Adultos)'];
+
+            // Gráfica de Progresión (%)
+            const elProg = document.getElementById('progressionChart');
+            if (elProg) {
+                new Chart(elProg, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: '1ª Mitad (01 al 15 Jul)',
+                                data: [-46.61, -39.48, -62.95, 118.17],
+                                backgroundColor: '#3b82f6',
+                                borderRadius: 6
+                            },
+                            {
+                                label: '2ª Mitad (16 al 31 Jul)',
+                                data: [-19.19, 22.66, -36.50, 4.48],
+                                backgroundColor: '#10b981',
+                                borderRadius: 6
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom', labels: { boxWidth: 14, font: { size: 12 } } },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return ` ${context.dataset.label}: ${context.raw > 0 ? '+' : ''}${context.raw}%`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                grid: { color: '#f1f5f9' },
+                                ticks: {
+                                    callback: function(val) { return val + '%'; }
+                                }
+                            },
+                            x: {
+                                grid: { display: false }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Gráfica de Delta (Pts)
+            const elDelta = document.getElementById('deltaChart');
+            if (elDelta) {
+                new Chart(elDelta, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: '1ª Mitad (01 al 15 Jul)',
+                                data: [-43.71, -26.01, -50.67, 102.36],
+                                backgroundColor: '#3b82f6',
+                                borderRadius: 6
+                            },
+                            {
+                                label: '2ª Mitad (16 al 31 Jul)',
+                                data: [-16.45, 37.90, -25.39, 5.48],
+                                backgroundColor: '#10b981',
+                                borderRadius: 6
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom', labels: { boxWidth: 14, font: { size: 12 } } },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return ` ${context.dataset.label}: ${context.raw > 0 ? '+' : ''}${context.raw} pts`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                grid: { color: '#f1f5f9' },
+                                ticks: {
+                                    callback: function(val) { return val + ' pts'; }
+                                }
+                            },
+                            x: {
+                                grid: { display: false }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            initCharts();
+        } else {
+            document.addEventListener('DOMContentLoaded', initCharts);
+        }
+    </script>
 </body>
 </html>

@@ -3,165 +3,772 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reporte de Desempeño - Sección Roller (Agosto)</title>
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>EID Agosto - Sección Roller | Adolfo Jimenez</title>
+    <!-- Chart.js local y CDN como respaldo -->
+    <script src="./chart.umd.min.js"></script>
+    <script>
+        if (typeof Chart === 'undefined') {
+            document.write('<script src="https://cdn.jsdelivr.net/npm/chart.js"><\/script>');
+        }
+    </script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; color: #333; margin: 0; padding: 20px; }
-        .container { max-width: 1100px; margin: auto; }
-        h1, h2, h3 { color: #1e293b; }
-        .header-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .btn-download {
-            display: inline-block;
-            background-color: #2563eb;
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --primary-bg: #eff6ff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --bg-page: #f8fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --success: #059669;
+            --success-bg: #ecfdf5;
+            --success-border: #a7f3d0;
+            --danger: #dc2626;
+            --danger-bg: #fef2f2;
+            --danger-border: #fecaca;
+            --warning: #d97706;
+            --warning-bg: #fffbeb;
+            --warning-border: #fde68a;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding-bottom: 50px;
+        }
+
+        /* Top Navigation Bar */
+        .top-navbar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+        }
+        .brand {
+            font-weight: 700;
+            font-size: 17px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        .nav-link:hover {
+            background-color: #f1f5f9;
+            color: var(--text-main);
+        }
+        .nav-link.active {
+            background-color: var(--primary-bg);
+            color: var(--primary-light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 24px auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Card */
+        .hero-card {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
             color: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .hero-info h1 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+        .hero-info p {
+            color: #cbd5e1;
+            font-size: 15px;
+            max-width: 720px;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             padding: 10px 18px;
             border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
+            font-weight: 600;
             font-size: 14px;
-            margin-top: 10px;
-            transition: background-color 0.2s, transform 0.1s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
         }
-        .btn-download:hover { background-color: #1d4ed8; transform: translateY(-2px); }
-        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .kpi { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center; }
-        .kpi h3 { margin: 0 0 10px 0; font-size: 14px; color: #64748b; }
-        .kpi .value { font-size: 22px; font-weight: bold; }
-        .negative { color: #ef4444; }
-        .positive { color: #10b981; }
-        .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 20px; margin-bottom: 25px; }
-        .chart-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .content-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; line-height: 1.6; }
-        .highlight-box { background-color: #f0fdf4; border-left: 4px solid #10b981; padding: 15px; border-radius: 6px; margin-top: 15px; }
-        .alert-box { background-color: #fffbeeb; border-left: 4px solid #f59e0b; padding: 15px; border-radius: 6px; margin-top: 15px; }
-        ul { padding-left: 20px; }
+        .btn-white {
+            background: white;
+            color: #0f172a;
+            box-shadow: var(--shadow-sm);
+        }
+        .btn-white:hover {
+            background: #f8fafc;
+            transform: translateY(-1px);
+        }
+
+        /* KPI Banner */
+        .summary-banner {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .metric-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 20px;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+        .metric-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--primary-light);
+        }
+        .metric-card.danger::before { background: var(--danger); }
+        .metric-card.success::before { background: var(--success); }
+        .metric-card.warning::before { background: var(--warning); }
+        
+        .metric-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .metric-value-row {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+        }
+        .metric-value {
+            font-size: 26px;
+            font-weight: 800;
+        }
+        .metric-sub {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .tag-positive { color: var(--success); }
+        .tag-negative { color: var(--danger); }
+
+        /* Section Headings */
+        .section-header {
+            margin-bottom: 16px;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* Charts Section */
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .chart-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+        }
+        .chart-card h3 {
+            font-size: 16px;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+        .chart-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .legend-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 3px;
+            vertical-align: middle;
+        }
+        .dot-blue { background-color: #3b82f6; }
+        .dot-green { background-color: #10b981; }
+        .badge-impact {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 9999px;
+            margin-left: 6px;
+            white-space: nowrap;
+            vertical-align: middle;
+            line-height: 1.2;
+        }
+        .badge-impact-success { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+        .badge-impact-info { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+        .badge-impact-neutral { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            min-height: 260px;
+        }
+
+        /* Strategy Cards: Cause - Action - Effect */
+        .strategy-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+        .action-card {
+            background: white;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+        .action-card-header {
+            padding: 16px 22px;
+            background: #f8fafc;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .action-card-header h3 {
+            font-size: 17px;
+            color: #0f172a;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .badge-pill {
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .pill-blue { background: var(--primary-bg); color: var(--primary-light); }
+        .pill-green { background: var(--success-bg); color: var(--success); }
+        .pill-red { background: var(--danger-bg); color: var(--danger); }
+        .pill-amber { background: var(--warning-bg); color: var(--warning); }
+
+        .action-body {
+            padding: 22px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .action-column {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .column-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .column-box {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 14px;
+            border: 1px solid var(--border);
+            height: 100%;
+            font-size: 14px;
+        }
+        .box-diag { border-left: 4px solid #94a3b8; }
+        .box-action { border-left: 4px solid var(--primary-light); background: #f0f7ff; }
+        .box-result { border-left: 4px solid var(--success); background: #f0fdf4; }
+
+        /* Focus Cards */
+        .callout-box {
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+        .callout-success {
+            background-color: var(--success-bg);
+            border: 1px solid var(--success-border);
+            color: #065f46;
+        }
+        .callout-warning {
+            background-color: var(--warning-bg);
+            border: 1px solid var(--warning-border);
+            color: #92400e;
+        }
+        .callout-icon {
+            font-size: 24px;
+            line-height: 1;
+        }
+        .callout-content h4 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .callout-content p {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        footer {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .charts-container { grid-template-columns: 1fr; }
+            .hero-card { flex-direction: column; align-items: flex-start; }
+            .hero-actions { width: 100%; }
+            .btn { width: 100%; justify-content: center; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- Encabezado Principal -->
-    <div class="header-card">
-        <h1>📊 Reporte de Desempeño - Sección Roller (Agosto)</h1>
-        <p>
-            <strong>Progresión General:</strong> <span class="negative">-42,99%</span> | 
-            <strong>Delta General:</strong> <span class="negative">-25,68 pts</span>
-        </p>
-        <!-- Botón para descargar el PDF con el nombre exacto -->
-        <a href="./EID_agosto.pdf" download class="btn-download">
-            📄 Descargar Documento PDF (Agosto)
-        </a>
-    </div>
-
-    <!-- Resumen General por Familias -->
-    <div class="kpi-grid">
-        <div class="kpi">
-            <h3>Fam. 886 (Patines Niños)</h3>
-            <div class="value negative">-33,79%</div>
-            <small>Delta: -25,34 pts</small>
+    <!-- Navegación Superior -->
+    <header class="top-navbar">
+        <div class="nav-container">
+            <div class="brand">
+                <span>🛼</span>
+                <span>EID Roller | Adolfo Jimenez</span>
+            </div>
+            <nav class="nav-links">
+                <a href="../index.html" class="nav-link">🏠 Inicio</a>
+                <a href="../Julio/index.html" class="nav-link">📅 Julio</a>
+                <a href="./index.html" class="nav-link active">📅 Agosto</a>
+            </nav>
         </div>
-        <div class="kpi">
-            <h3>Fam. 11630 (Cascos)</h3>
-            <div class="value negative">-39,80%</div>
-            <small>Delta: -19,45 pts</small>
+    </header>
+
+    <main class="container">
+        
+        <!-- Tarjeta Principal de Agosto -->
+        <section class="hero-card">
+            <div class="hero-info">
+                <h1>📊 Reporte de Desempeño: Agosto</h1>
+                <p>Análisis comercial quincenal en la sección de Roller (Tienda 2208 - La Flora), estrategias de multi-implantación cruzada, contención de rupturas y reactivación tras el sismo del 10 de agosto.</p>
+            </div>
+            <div class="hero-actions">
+                <a href="./EID_agosto.pdf" download class="btn btn-white">
+                    📄 Descargar PDF Original (Agosto)
+                </a>
+            </div>
+        </section>
+
+        <!-- Banner de Métricas Globales del Mes (Protagonismo Exclusivo) -->
+        <section class="summary-banner" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+            <div class="metric-card danger">
+                <div class="metric-title">Progresión General (Mes)</div>
+                <div class="metric-value-row">
+                    <span class="metric-value tag-negative">-42,99%</span>
+                </div>
+                <div class="metric-sub">Impactada por contingencia del terremoto del 10 de agosto</div>
+            </div>
+            <div class="metric-card danger">
+                <div class="metric-title">Delta General (Mes)</div>
+                <div class="metric-value-row">
+                    <span class="metric-value tag-negative">-25,68 pts</span>
+                </div>
+                <div class="metric-sub">Diferencia general de la sección vs. objetivo de tienda</div>
+            </div>
+        </section>
+
+        <!-- Bloque de Contexto Operativo: Terremoto del 10 de Agosto -->
+        <section style="background: #fffbeb; border: 1px solid #fde68a; border-left: 5px solid #d97706; border-radius: 12px; padding: 18px 22px; margin-bottom: 24px;">
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+                <span style="font-size: 22px; line-height: 1;">⚠️</span>
+                <div>
+                    <h4 style="font-size: 15px; font-weight: 800; color: #92400e; margin-bottom: 4px;">
+                        Contexto Operativo: Impacto del Terremoto del 10 de Agosto y Salto Temporal (10 al 15 de Agosto)
+                    </h4>
+                    <p style="font-size: 13.5px; color: #78350f; line-height: 1.5;">
+                        El <strong>10 de agosto</strong> ocurrió un terremoto que afectó directamente la actividad comercial, la afluencia de clientes y la operación de la tienda. Esta situación extraordinaria explica:
+                    </p>
+                    <ul style="font-size: 13px; color: #78350f; margin-top: 6px; padding-left: 18px; line-height: 1.5;">
+                        <li><strong>La regresión general de la sección:</strong> Fuerte caída en progresión (-42,99%) y delta (-25,68 pts) por la contingencia física e interrupción en el flujo de ventas.</li>
+                        <li><strong>El salto entre periodos (10 al 15 de agosto):</strong> La medición quincenal se dividió en la <em>1ª Fase (01 al 10 de agosto, periodo pre-terremoto)</em> y la <em>2ª Fase (15 al 31 de agosto, reactivación comercial de la tienda)</em>.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gráficas de Evolución Quincenal -->
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">📈 Comparación Quincenal: 1ª Fase Pre-Sismo vs. 2ª Fase Reactivación</h2>
+                <div class="section-desc">Evolución entre el 01 al 10 de agosto (pre-terremoto) y el 15 al 31 de agosto (reapertura y decisiones de stock)</div>
+            </div>
         </div>
-        <div class="kpi">
-            <h3>Fam. 1117 (Protecciones)</h3>
-            <div class="value negative">-55,74%</div>
-            <small>Delta: -38,11 pts</small>
-        </div>
-        <div class="kpi">
-            <h3>Fam. 35097 (Adultos)</h3>
-            <div class="value negative">-13,84%</div>
-            <small>Delta: -10,36 pts</small>
-        </div>
-    </div>
 
-    <!-- Gráficas de Comparación Quincenal -->
-    <div class="charts-grid">
-        <div class="chart-card">
-            <h2>Evolución Progresión (%) 1ª vs 2ª Mitad</h2>
-            <canvas id="progressionChart"></canvas>
-        </div>
-        <div class="chart-card">
-            <h2>Evolución Delta (Pts) 1ª vs 2ª Mitad</h2>
-            <canvas id="deltaChart"></canvas>
-        </div>
-    </div>
-
-    <!-- Estrategia e Impacto del Inventario -->
-    <div class="content-card">
-        <h2>🛠️ Decisiones Tomadas e Impacto del Inventario</h2>
-        <ul>
-            <li><strong>Mantención del lineal 886:</strong> Se mantuvo la exhibición debido a sus buenos rendimientos previos.</li>
-            <li><strong>Multi-implantaciones (11630):</strong> Implementadas en Kick Scooters y Ciclismo (combos con cascos/protecciones).</li>
-            <li><strong>Gestión de Rupturas (886):</strong> Tras la ruptura del patín lila (8983158), se pidió push del Beige (8580562, fin de temporada) y Azul (8580561).</li>
-            <li><strong>Recuperación por Reabastecimiento:</strong>
-                <ul>
-                    <li><strong>Patín Adulto (8377410):</strong> Recuperación inmediata de ventas al restablecer la disponibilidad de compra.</li>
-                    <li><strong>Familia 35097:</strong> Pasó de un -52,87% a un <strong>+41,39% en la segunda mitad</strong> tras ampliar el rango de tallas.</li>
-                </ul>
-            </li>
-        </ul>
-
-        <div class="highlight-box">
-            <strong>💡 Conclusión de Inventario:</strong> Se confirma que a mayor variedad de tallas y disponibilidad de stock en el lineal, mayor es la tasa de conversión y el volumen de ventas.
+        <div class="charts-container">
+            <div class="chart-card">
+                <h3>Evolución de Progresión (%) por Familia</h3>
+                <div class="chart-subtitle">
+                    <span><span class="legend-dot dot-blue"></span> <strong>1ª Fase Pre-Terremoto</strong> (01-10 Ago)</span>
+                    <span style="color: var(--border);">|</span>
+                    <span><span class="legend-dot dot-green"></span> <strong>2ª Fase Reactivación</strong> (15-31 Ago)</span>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="progressionChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <h3>Evolución de Delta (Pts) por Familia</h3>
+                <div class="chart-subtitle">
+                    <span><span class="legend-dot dot-blue"></span> <strong>1ª Fase Pre-Terremoto</strong> (01-10 Ago)</span>
+                    <span style="color: var(--border);">|</span>
+                    <span><span class="legend-dot dot-green"></span> <strong>2ª Fase Reactivación</strong> (15-31 Ago)</span>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="deltaChart"></canvas>
+                </div>
+            </div>
         </div>
 
-        <div class="alert-box">
-            <strong>⚠️ Observación Kick Scooter / Monopatines:</strong> El 23 de agosto se reestructuró la exhibición en el lineal. Aunque el patín de adulto mejoró por el stock, el resto de modelos de monopatines no ha registrado cambios significativos en su rotación.
+        <!-- Estrategias Detalladas Causa - Acción - Efecto -->
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">🎯 Estrategias por Familia: Diagnóstico, Decisión y Resultado</h2>
+                <div class="section-desc">Detalle específico de las 4 familias clave de la sección roller (patines de niños, cascos de niños, protecciones de niños y protecciones de adultos)</div>
+            </div>
         </div>
-    </div>
-</div>
 
-<script>
-    // Familias monitoreadas
-    const labels = ['Fam. 886', 'Fam. 11630', 'Fam. 1117', 'Fam. 35097'];
+        <div class="strategy-grid">
 
-    // Gráfica de Progresión (%)
-    new Chart(document.getElementById('progressionChart'), {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [
-                { 
-                    label: '1ª Mitad (01-10 Ago)', 
-                    data: [-30.89, -55.37, -68.62, -52.87], 
-                    backgroundColor: '#f87171' 
-                },
-                { 
-                    label: '2ª Mitad (15-31 Ago)', 
-                    data: [-33.02, -23.01, -42.35, 41.39], 
-                    backgroundColor: ['#fca5a5', '#fca5a5', '#fca5a5', '#10b981'] 
-                }
-            ]
-        },
-        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
-    });
+            <!-- CASO 1: Familia 35097 y Artículo 8377410 (Protecciones Adulto) -->
+            <article class="action-card">
+                <div class="action-card-header">
+                    <h3>🛡️ Familia 35097 & Artículo 8377410: Protecciones de Adulto</h3>
+                    <span class="badge-pill pill-green">Recuperación Histórica: de -52,87% a +41,39%</span>
+                </div>
+                <div class="action-body">
+                    <div class="action-column">
+                        <span class="column-label">🔍 1. Diagnóstico Inicial (01-10 Ago)</span>
+                        <div class="column-box box-diag">
+                            <p><strong>Cifras 1ª Mitad:</strong> Progresión <span class="tag-negative">-52,87%</span> | Delta <span class="tag-negative">-48,58 pts</span>.</p>
+                            <p style="margin-top: 8px;"><strong>Causa raíz identificada:</strong> Severo desabastecimiento de inventario que limitaba drásticamente la variedad de tallas disponibles para los clientes. El <strong>Artículo 8377410 (Protección de Adulto)</strong> presentaba una rotación extremadamente baja debido a la falta de existencias para compra inmediata.</p>
+                        </div>
+                    </div>
+                    <div class="action-column">
+                        <span class="column-label">⚙️ 2. Estrategia y Acción Aplicada</span>
+                        <div class="column-box box-action">
+                            <p><strong>Reabastecimiento y Cobertura de Tallas:</strong> Gestión para el reingreso de stock y la habilitación de opción de compra inmediata en el <em>Artículo 8377410 (Protección de Adulto)</em>.</p>
+                            <p style="margin-top: 8px;"><strong>Ampliación de curva de tallas en Familia 35097 (Protecciones de Adulto):</strong> Se aseguró la disponibilidad de un rango completo de numeraciones/tallas en el lineal para que ningún cliente desistiera por falta de su medida.</p>
+                        </div>
+                    </div>
+                    <div class="action-column">
+                        <span class="column-label">📊 3. Resultado Obtenido (15-31 Ago)</span>
+                        <div class="column-box box-result">
+                            <p><strong>Cifras 2ª Mitad:</strong> Progresión <strong class="tag-positive">+41,39%</strong> | Delta <strong class="tag-positive">+44,63 pts</strong> <span class="badge-impact badge-impact-success">▲ Giro Histórico (+94,3 pts)</span></p>
+                            <p style="margin-top: 8px;"><strong>Giro de +94,26 pts en progresión y +93,21 pts en delta:</strong> Al restablecer el stock, el Artículo 8377410 (Protección de Adulto) experimentó un incremento masivo en ventas. La Familia 35097 (Protecciones de Adulto) registró una notable recuperación en comparación con los meses anteriores.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
 
-    // Gráfica de Delta (Pts)
-    new Chart(document.getElementById('deltaChart'), {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [
-                { 
-                    label: '1ª Mitad (01-10 Ago)', 
-                    data: [-26.28, -38.19, -58.55, -48.58], 
-                    backgroundColor: '#fb923c' 
-                },
-                { 
-                    label: '2ª Mitad (15-31 Ago)', 
-                    data: [-25.18, -0.88, -22.36, 44.63], 
-                    backgroundColor: ['#fed7aa', '#fed7aa', '#fed7aa', '#3b82f6'] 
-                }
-            ]
-        },
-        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
-    });
-</script>
+            <!-- CASO 2: Familia 11630 (Cascos Niños) y Familia 1117 (Protecciones Niños) -->
+            <article class="action-card">
+                <div class="action-card-header">
+                    <h3>🪖 Familia 11630 (Cascos Niños) & Familia 1117 (Protecciones Niños)</h3>
+                    <span class="badge-pill pill-blue">Estrategia de Multi-implantaciones y Promociones Cruzadas</span>
+                </div>
+                <div class="action-body">
+                    <div class="action-column">
+                        <span class="column-label">🔍 1. Diagnóstico Inicial (01-10 Ago)</span>
+                        <div class="column-box box-diag">
+                            <p><strong>Caída acentuada en la primera decena del mes:</strong></p>
+                            <ul style="margin-top: 6px; padding-left: 18px; font-size: 13px;">
+                                <li><strong>Fam. 11630 (Cascos Niños):</strong> Prog <span class="tag-negative">-55,37%</span> | Delta <span class="tag-negative">-38,19 pts</span></li>
+                                <li><strong>Fam. 1117 (Protecciones Niños):</strong> Prog <span class="tag-negative">-68,62%</span> | Delta <span class="tag-negative">-58,55 pts</span></li>
+                            </ul>
+                            <p style="margin-top: 8px;">Las protecciones de niño y cascos de niño dependían exclusivamente del tráfico propio del pasillo de patines, reduciendo su visibilidad frente a compradores de otros deportes de ruedas.</p>
+                        </div>
+                    </div>
+                    <div class="action-column">
+                        <span class="column-label">⚙️ 2. Estrategia y Acción Aplicada</span>
+                        <div class="column-box box-action">
+                            <p><strong>Multi-implantaciones de la Familia 11630 (Cascos Niños):</strong></p>
+                            <ul style="margin-top: 6px; padding-left: 18px; font-size: 13px;">
+                                <li>Exhibición secundaria de cascos de niño en el lineal de <strong>Kick Scooters (monopatines)</strong>.</li>
+                                <li>Exposición cruzada en el lineal de <strong>Ciclismo</strong> por promoción de combo: <em>Bicicleta infantil + Casco de Niño PPT</em>.</li>
+                                <li>Continuidad a la promoción combinada de <em>Protección de Niño (ref. 8605509) + Casco de Niño rosado (ref. 8586685)</em> iniciada en julio.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="action-column">
+                        <span class="column-label">📊 3. Resultado Obtenido (15-31 Ago)</span>
+                        <div class="column-box box-result">
+                            <p><strong>Fuerte impulso y reducción de brecha:</strong></p>
+                            <ul style="margin-top: 6px; padding-left: 18px; font-size: 13px;">
+                                <li><strong>Fam. 11630 (Cascos Niños):</strong> Progresión recortó de -55,37% a <strong>-23,01%</strong> (+32,36 pts). Su Delta pasó de -38,19 pts a prácticamente equilibrio: <strong class="tag-positive">-0,88 pts</strong> (+37,31 pts de mejora) <span class="badge-impact badge-impact-success">▲ +37,3 pts delta</span></li>
+                                <li><strong>Fam. 1117 (Protecciones Niños):</strong> Progresión mejoró de -68,62% a <strong>-42,35%</strong> (+26,27 pts). Su Delta mejoró de -58,55 pts a <strong>-22,36 pts</strong> (+36,19 pts de recuperación) <span class="badge-impact badge-impact-info">▲ +36,2 pts delta</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </article>
 
+            <!-- CASO 3: Familia 886 (Patines Niños) -->
+            <article class="action-card">
+                <div class="action-card-header">
+                    <h3>👦 Familia 886: Patines de Niños</h3>
+                    <span class="badge-pill pill-amber">Mantención de Lineal y Gestión Activa de Rupturas</span>
+                </div>
+                <div class="action-body">
+                    <div class="action-column">
+                        <span class="column-label">🔍 1. Diagnóstico Inicial</span>
+                        <div class="column-box box-diag">
+                            <p><strong>1ª Mitad:</strong> Prog <span class="tag-negative">-30,89%</span> | Delta <span class="tag-negative">-26,28 pts</span>.</p>
+                            <p style="margin-top: 8px;"><strong>Incidente de stock:</strong> Durante el transcurso del mes se produjo la <strong>ruptura total de stock del patín de niño lila (ref. 8983158)</strong>, amenazando con desplomar las ventas de la categoría infantil.</p>
+                        </div>
+                    </div>
+                    <div class="action-column">
+                        <span class="column-label">⚙️ 2. Estrategia y Acción Aplicada</span>
+                        <div class="column-box box-action">
+                            <p><strong>1. Mantención del lineal:</strong> Tras analizar los KPIs de julio, se decidió mantener la distribución del lineal de la familia 886 (patines de niños) por sus buenos rendimientos históricos.</p>
+                            <p style="margin-top: 8px;"><strong>2. Push de referencias sustitutas:</strong> Para compensar la ruptura del patín de niño lila, se solicitó de inmediato push de las referencias <strong>Patín Niño Beige (ref. 8580562)</strong> —aprovechando su promoción de fin de temporada— y <strong>Patín Niño Azul (ref. 8580561)</strong>.</p>
+                        </div>
+                    </div>
+                    <div class="action-column">
+                        <span class="column-label">📊 3. Resultado Obtenido (15-31 Ago)</span>
+                        <div class="column-box box-result">
+                            <p><strong>2ª Mitad:</strong> Prog <strong>-33,02%</strong> | Delta <strong>-25,18 pts</strong> <span class="badge-impact badge-impact-neutral">🛡️ Contención por Push Beige/Azul</span></p>
+                            <p style="margin-top: 8px;"><strong>Contención exitosa:</strong> La rápida sustitución por los patines de niño Beige y Azul evitó la pérdida de ventas, logrando mantener estable el rendimiento de la familia infantil a pesar del desabastecimiento del modelo lila.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- Bloques Clave de Conclusiones e Investigación Operativa -->
+        <section class="callout-box callout-success">
+            <div class="callout-icon">💡</div>
+            <div class="callout-content">
+                <h4>Conclusión de Inventario: Correlación Directa entre Tallas/Stock y Facturación</h4>
+                <p>Los resultados de agosto demuestran que a mayor variedad de tallas y disponibilidad de elección para el cliente en el lineal, mayor es la tasa de conversión y el volumen de ventas. Este comportamiento validó completamente la decisión tomada de solicitar el push de stock prioritario tanto para las protecciones de adulto como para los patines de la familia 886 (niños).</p>
+            </div>
+        </section>
+
+        <section class="callout-box callout-warning">
+            <div class="callout-icon">⚠️</div>
+            <div class="callout-content">
+                <h4>Observación Operativa: Categoría Kick Scooter / Monopatines</h4>
+                <p>Dentro de la categoría de Kick Scooter (a la que pertenece el patín de adulto), el <strong>23 de agosto</strong> se reestructuró la exhibición física en el lineal con el objetivo de mejorar la propuesta visual y dinamizar las ventas. Sin embargo, a la fecha de corte no se ha registrado una mejora general en el rendimiento del conjunto de la familia, ya que el incremento observado se concentró exclusivamente en el patín de adulto gracias al reabastecimiento de stock, mientras que el resto de los modelos de monopatines mantiene una rotación sin variaciones significativas.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Reporte Individual de Desempeño (EID) - Sección Roller | Datos extraídos fielmente de <code>EID_agosto.pdf</code></p>
+    </footer>
+
+    <script>
+        function initCharts() {
+            if (typeof Chart === 'undefined') {
+                console.error('Chart.js no está disponible.');
+                return;
+            }
+
+            const labels = ['Fam. 886 (Patines Niños)', 'Fam. 11630 (Cascos Niños)', 'Fam. 1117 (Protecciones Niños)', 'Fam. 35097 (Protecciones Adultos)'];
+
+            // Gráfica de Progresión (%)
+            const elProg = document.getElementById('progressionChart');
+            if (elProg) {
+                new Chart(elProg, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: '1ª Fase Pre-Sismo (01-10 Ago)',
+                                data: [-30.89, -55.37, -68.62, -52.87],
+                                backgroundColor: '#3b82f6',
+                                borderRadius: 6
+                            },
+                            {
+                                label: '2ª Fase Reactivación (15-31 Ago)',
+                                data: [-33.02, -23.01, -42.35, 41.39],
+                                backgroundColor: '#10b981',
+                                borderRadius: 6
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom', labels: { boxWidth: 14, font: { size: 12 } } },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return ` ${context.dataset.label}: ${context.raw > 0 ? '+' : ''}${context.raw}%`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                grid: { color: '#f1f5f9' },
+                                ticks: {
+                                    callback: function(val) { return val + '%'; }
+                                }
+                            },
+                            x: {
+                                grid: { display: false }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Gráfica de Delta (Pts)
+            const elDelta = document.getElementById('deltaChart');
+            if (elDelta) {
+                new Chart(elDelta, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: '1ª Fase Pre-Sismo (01-10 Ago)',
+                                data: [-26.28, -38.19, -58.55, -48.58],
+                                backgroundColor: '#3b82f6',
+                                borderRadius: 6
+                            },
+                            {
+                                label: '2ª Fase Reactivación (15-31 Ago)',
+                                data: [-25.18, -0.88, -22.36, 44.63],
+                                backgroundColor: '#10b981',
+                                borderRadius: 6
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom', labels: { boxWidth: 14, font: { size: 12 } } },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return ` ${context.dataset.label}: ${context.raw > 0 ? '+' : ''}${context.raw} pts`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                grid: { color: '#f1f5f9' },
+                                ticks: {
+                                    callback: function(val) { return val + ' pts'; }
+                                }
+                            },
+                            x: {
+                                grid: { display: false }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            initCharts();
+        } else {
+            document.addEventListener('DOMContentLoaded', initCharts);
+        }
+    </script>
 </body>
 </html>
