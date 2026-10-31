@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Septiembre 2026 - Resultados Comerciales | Adolfo Jimenez</title>
+    <!-- Chart.js local y CDN como respaldo -->
+    <script src="./chart.umd.min.js"></script>
+    <script>
+        if (typeof Chart === 'undefined') {
+            document.write('<script src="https://cdn.jsdelivr.net/npm/chart.js"><\/script>');
+        }
+    </script>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --primary-bg: #eff6ff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --bg-page: #f8fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --success: #059669;
+            --success-bg: #ecfdf5;
+            --success-border: #a7f3d0;
+            --danger: #dc2626;
+            --danger-bg: #fef2f2;
+            --danger-border: #fecaca;
+            --warning: #d97706;
+            --warning-bg: #fffbeb;
+            --warning-border: #fde68a;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding-bottom: 60px;
+        }
+
+        /* Top Navigation Bar */
+        .top-navbar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+        .nav-container {
+            max-width: 1140px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+        }
+        .brand {
+            font-weight: 700;
+            font-size: 17px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        .nav-link:hover {
+            background-color: #f1f5f9;
+            color: var(--text-main);
+        }
+        .nav-link.active {
+            background-color: var(--primary-bg);
+            color: var(--primary-light);
+        }
+
+        .container {
+            max-width: 1140px;
+            margin: 24px auto;
+            padding: 0 20px;
+        }
+
+        /* Header Hero */
+        .hero-card {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 28px 32px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .hero-info h1 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+        .hero-info p {
+            color: #bfdbfe;
+            font-size: 15px;
+            max-width: 720px;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-white {
+            background: white;
+            color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+        .btn-white:hover {
+            background: #f8fafc;
+            transform: translateY(-1px);
+        }
+
+        /* 1. Tarjetas KPI (3 Bloques Grandes con Formato Condicional) */
+        .kpi-header-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .kpi-big-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px 26px;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+        .kpi-big-card:hover {
+            transform: translateY(-2px);
+        }
+        .kpi-big-card.kpi-positive {
+            background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%);
+            border-color: var(--success-border);
+            border-left: 6px solid var(--success);
+        }
+        .kpi-big-card.kpi-negative {
+            background: linear-gradient(180deg, #ffffff 0%, #fef2f2 100%);
+            border-color: var(--danger-border);
+            border-left: 6px solid var(--danger);
+        }
+        .kpi-big-label {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            font-weight: 800;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .kpi-big-value {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+        .kpi-positive .kpi-big-value { color: var(--success); }
+        .kpi-negative .kpi-big-value { color: var(--danger); }
+        .kpi-big-sub {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .status-pill {
+            font-size: 11px;
+            padding: 3px 9px;
+            border-radius: 9999px;
+            font-weight: 800;
+        }
+        .kpi-positive .status-pill {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .kpi-negative .status-pill {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Section Headings */
+        .section-header {
+            margin-bottom: 16px;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* 2. Sección Desempeño por Deporte (Gráfico Simple + Tarjetas Resumen) */
+        .sports-layout {
+            display: grid;
+            grid-template-columns: 1.35fr 1fr;
+            gap: 22px;
+            margin-bottom: 34px;
+            align-items: stretch;
+        }
+        .chart-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .chart-card h3 {
+            font-size: 17px;
+            color: #0f172a;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+        .chart-subtitle {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .legend-dot {
+            display: inline-block;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            margin-right: 4px;
+            vertical-align: middle;
+        }
+        .dot-blue { background-color: #3b82f6; }
+        .dot-green { background-color: #10b981; }
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 290px;
+        }
+
+        .sports-summary-col {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .sport-summary-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: var(--shadow-sm);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .sport-summary-card.fitness-card {
+            border-left: 5px solid var(--success);
+        }
+        .sport-summary-card.combat-card {
+            border-left: 5px solid var(--primary-light);
+        }
+        .sport-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .sport-name {
+            font-size: 17px;
+            font-weight: 800;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sport-badge {
+            font-size: 12px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 9999px;
+        }
+        .badge-green { background: var(--success-bg); color: var(--success); border: 1px solid var(--success-border); }
+        .badge-blue { background: var(--primary-bg); color: var(--primary-light); border: 1px solid #bfdbfe; }
+        .sport-desc {
+            font-size: 14.5px;
+            color: #334155;
+            line-height: 1.55;
+        }
+        .sport-metrics-mini {
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px dashed var(--border);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .sport-kpi-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 8px 10px;
+            text-align: center;
+        }
+        .sport-kpi-box.highlight-up {
+            background: #ecfdf5;
+            border-color: #a7f3d0;
+        }
+        .sport-kpi-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 2px;
+        }
+        .sport-kpi-val {
+            font-size: 15px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+        .badge-impact {
+            display: inline-block;
+            font-size: 11.5px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            margin-left: 6px;
+            white-space: nowrap;
+            vertical-align: middle;
+        }
+        .badge-impact-success { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+        .badge-impact-info { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+        .badge-impact-neutral { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+
+        /* 3. Acordeón Interactivo de Estrategias por Familia */
+        .accordion-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 36px;
+        }
+        .accordion-item {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+        .accordion-item.active {
+            border-color: #93c5fd;
+            box-shadow: var(--shadow);
+        }
+        .accordion-header {
+            width: 100%;
+            padding: 20px 24px;
+            background: #ffffff;
+            border: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            text-align: left;
+            gap: 16px;
+            transition: background-color 0.15s ease;
+        }
+        .accordion-header:hover {
+            background: #f8fafc;
+        }
+        .accordion-item.active .accordion-header {
+            background: #f8fafc;
+            border-bottom: 1px solid var(--border);
+        }
+        .acc-title-group {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+        .acc-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: var(--primary-bg);
+            color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .acc-family-name {
+            font-size: 17px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+        .acc-family-id {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            background: #f1f5f9;
+            padding: 2px 8px;
+            border-radius: 6px;
+            margin-left: 6px;
+        }
+        /* Frase directa Acción -> Resultado en la cabecera del acordeón */
+        .acc-one-liner {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .acc-action-pill {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #1e293b;
+            background: #f1f5f9;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        .acc-arrow {
+            color: var(--text-muted);
+            font-weight: bold;
+        }
+        .acc-result-pill {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: #065f46;
+            background: #d1fae5;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid #a7f3d0;
+        }
+        .acc-chevron {
+            font-size: 18px;
+            color: var(--text-muted);
+            transition: transform 0.25s ease;
+            margin-left: 8px;
+        }
+        .accordion-item.active .acc-chevron {
+            transform: rotate(180deg);
+            color: var(--primary-light);
+        }
+
+        .accordion-body {
+            display: none;
+            padding: 24px;
+            background: #ffffff;
+        }
+        .accordion-item.active .accordion-body {
+            display: block;
+        }
+
+        .commercial-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+        .highlight-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid var(--success);
+            border-radius: 10px;
+            padding: 16px;
+        }
+        .highlight-box.box-blue {
+            border-left-color: var(--primary-light);
+        }
+        .highlight-box h4 {
+            font-size: 14px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .highlight-box p {
+            font-size: 14px;
+            color: #334155;
+            line-height: 1.5;
+        }
+
+        /* Mini tabla de soporte dentro del acordeón */
+        .mini-ref-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-top: 10px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .mini-ref-table th, .mini-ref-table td {
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        .mini-ref-table th {
+            background: #f1f5f9;
+            color: #334155;
+            font-weight: 700;
+        }
+        .mini-ref-table tr:last-child td { border-bottom: none; }
+        .tag-pos { color: var(--success); font-weight: 800; }
+        .tag-neg { color: var(--danger); font-weight: 700; }
+
+        .expand-all-btn {
+            background: white;
+            border: 1px solid var(--border);
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .expand-all-btn:hover {
+            background: var(--primary-bg);
+            border-color: #bfdbfe;
+        }
+
+        footer {
+            max-width: 1140px;
+            margin: 40px auto 0;
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 860px) {
+            .sports-layout { grid-template-columns: 1fr; }
+            .acc-one-liner { width: 100%; margin-top: 6px; }
+        }
+
+        @media print {
+            .top-navbar, .hero-actions, .expand-all-btn, footer { display: none !important; }
+            .accordion-body { display: block !important; }
+            body { background: white; padding-bottom: 0; }
+            .container { max-width: 100%; margin: 0; padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barra de Navegación Superior -->
+    <header class="top-navbar">
+        <div class="nav-container">
+            <div class="brand">
+                <span>🛼</span>
+                <span>EID Desempeño | Adolfo Jimenez</span>
+            </div>
+            <nav class="nav-links">
+                <a href="../index.html" class="nav-link">🏠 Inicio</a>
+                <a href="../Julio/index.html" class="nav-link">📅 Julio</a>
+                <a href="../agosto/index.html" class="nav-link">📅 Agosto</a>
+                <a href="./index.html" class="nav-link active">📅 Septiembre</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- Cabecera Principal -->
+        <section class="hero-card">
+            <div class="hero-info">
+                <h1 id="periodo-titulo">Dashboard Comercial: Septiembre 2026</h1>
+                <p>
+                    Resultados de ventas, evolución quincenal por deporte (Fitness y Combate) y estrategias ganadoras en tienda física.
+                </p>
+            </div>
+            <div class="hero-actions">
+                <a href="../index.html" class="btn btn-white">← Volver al Inicio</a>
+                <button onclick="window.print()" class="btn btn-white">🖨️ Imprimir</button>
+            </div>
+        </section>
+
+        <!-- 1. TARJETAS KPI (Encabezado: 3 Bloques Grandes con Formato Condicional) -->
+        <section id="kpi-container" class="kpi-header-grid">
+            <!-- Renderizado dinámico por JS con respaldo inmediato en HTML -->
+            <div class="kpi-big-card kpi-positive">
+                <div class="kpi-big-label">
+                    <span>💰 Ventas Totales</span>
+                    <span class="status-pill">Meta Superada</span>
+                </div>
+                <div class="kpi-big-value" id="kpi-ventas">$121.175.439 COP</div>
+                <div class="kpi-big-sub">Facturación acumulada del mes en tienda física</div>
+            </div>
+
+            <div class="kpi-big-card kpi-positive">
+                <div class="kpi-big-label">
+                    <span>📈 Crecimiento (Prog)</span>
+                    <span class="status-pill">Positivo</span>
+                </div>
+                <div class="kpi-big-value" id="kpi-prog">+19,29%</div>
+                <div class="kpi-big-sub">Progresión de ventas frente al año anterior</div>
+            </div>
+
+            <div class="kpi-big-card kpi-positive">
+                <div class="kpi-big-label">
+                    <span>🏆 Ventaja vs Tiendas del País (Delta)</span>
+                    <span class="status-pill">Sobre País</span>
+                </div>
+                <div class="kpi-big-value" id="kpi-delta">+23,75 puntos</div>
+                <div class="kpi-big-sub">Comparación de desempeño frente a las tiendas del país</div>
+            </div>
+        </section>
+
+        <!-- 2. DESEMPEÑO POR DEPORTE Y GRÁFICO SIMPLE (1ª MITAD VS 2ª MITAD) -->
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">📊 Desempeño por Deporte: 1ª Mitad vs. 2ª Mitad del Mes</h2>
+                <div class="section-desc">Evolución de la Progresión del Deporte (%) entre la primera quincena (01-14 Sep) y la segunda quincena (15-30 Sep)</div>
+            </div>
+        </div>
+
+        <section class="sports-layout">
+            <!-- Gráfico de Barras Simple -->
+            <div class="chart-card">
+                <div>
+                    <h3>Evolución de Progresión del Deporte (%) por Quincena</h3>
+                    <div class="chart-subtitle">
+                        <span><span class="legend-dot dot-blue"></span> <strong>1ª Mitad del Mes</strong> (01 al 14 Sep)</span>
+                        <span style="color: var(--border);">|</span>
+                        <span><span class="legend-dot dot-green"></span> <strong>2ª Mitad del Mes</strong> (15 al 30 Sep)</span>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="sportsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Resumen Comercial por Deporte -->
+            <div class="sports-summary-col">
+                <div class="sport-summary-card fitness-card">
+                    <div class="sport-header">
+                        <span class="sport-name">🏋️ Fitness (Deporte 610)</span>
+                        <span class="sport-badge badge-green">93% de las Ventas del Mes</span>
+                    </div>
+                    <p class="sport-desc">
+                        Aportó el <strong>93% del dinero</strong>. En la 1ª mitad del mes ya crecía un <strong>+15.0% de progresión</strong>, y en la 2ª mitad las ventas explotaron hasta un <strong>+31.3% de progresión</strong> gracias a la ubicación estratégica de los productos.
+                    </p>
+                    <div class="sport-metrics-mini">
+                        <div class="sport-kpi-box">
+                            <span class="sport-kpi-label">Prog. 1ª Mitad</span>
+                            <span class="sport-kpi-val tag-pos">+15.0%</span>
+                        </div>
+                        <div class="sport-kpi-box highlight-up">
+                            <span class="sport-kpi-label">Prog. 2ª Mitad</span>
+                            <span class="sport-kpi-val tag-pos">+31.3%</span>
+                        </div>
+                        <div class="sport-kpi-box highlight-up">
+                            <span class="sport-kpi-label">Salto del Deporte</span>
+                            <span class="sport-kpi-val tag-pos">▲ +16.3 pts</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sport-summary-card combat-card">
+                    <div class="sport-header">
+                        <span class="sport-name">🥊 Combate (Deporte 349)</span>
+                        <span class="sport-badge badge-blue">Recuperación al Cierre</span>
+                    </div>
+                    <p class="sport-desc">
+                        Inició la 1ª mitad con una caída de <strong>-18.9% de progresión</strong>, pero gracias a la gestión de stock y exhibición logró <strong>frenar la caída y estabilizarse en -5.1% al cierre del mes</strong> (recuperando +13.8 puntos en la 2ª mitad).
+                    </p>
+                    <div class="sport-metrics-mini">
+                        <div class="sport-kpi-box">
+                            <span class="sport-kpi-label">Prog. 1ª Mitad</span>
+                            <span class="sport-kpi-val tag-neg">-18.9%</span>
+                        </div>
+                        <div class="sport-kpi-box">
+                            <span class="sport-kpi-label">Prog. 2ª Mitad</span>
+                            <span class="sport-kpi-val">-5.1%</span>
+                        </div>
+                        <div class="sport-kpi-box highlight-up">
+                            <span class="sport-kpi-label">Mejora del Deporte</span>
+                            <span class="sport-kpi-val tag-pos">▲ +13.8 pts</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. TARJETAS DE ESTRATEGIA: ACORDEÓN INTERACTIVO POR FAMILIA -->
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">🎯 Éxitos por Familia: Qué se hizo y Qué se logró</h2>
+                <div class="section-desc">Haz clic en cada familia para ver las acciones ejecutadas y cómo mejoró la venta diaria en la 2ª mitad del mes</div>
+            </div>
+            <button id="toggleAllBtn" class="expand-all-btn" onclick="toggleAllAccordions()">Expandir / Contraer Todo</button>
+        </div>
+
+        <section id="accordion-familias" class="accordion-container">
+
+            <!-- FAMILIA 213: BANDAS Y ACCESORIOS -->
+            <div class="accordion-item active">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="acc-title-group">
+                        <div class="acc-icon">🎗️</div>
+                        <div>
+                            <span class="acc-family-name">Bandas y Accesorios</span>
+                            <span class="acc-family-id">Familia 213</span>
+                        </div>
+                    </div>
+                    <div class="acc-one-liner">
+                        <span class="acc-action-pill">⚡ Acción: Aros en Atención al Cliente</span>
+                        <span class="acc-arrow">→</span>
+                        <span class="acc-result-pill">🚀 Resultado: +177% rotación</span>
+                    </div>
+                    <span class="acc-chevron">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="commercial-highlights">
+                        <div class="highlight-box">
+                            <h4>✊ Aros de Fuerza en Atención al Cliente</h4>
+                            <p>Exhibir aros de fuerza en Atención al Cliente <strong>disparó las ventas un 177%</strong> en la segunda mitad del mes, además de activar compras por impulso en la versión suave (Super Light).</p>
+                        </div>
+                        <div class="highlight-box box-blue">
+                            <h4>🛒 Banda Tricolor en Cajas y Maniquíes</h4>
+                            <p>Poner la banda tricolor en <strong>cajas y maniquíes de fútbol</strong> aseguró compras por impulso y el mayor volumen de unidades vendidas de toda la categoría.</p>
+                        </div>
+                        <div class="highlight-box">
+                            <h4>🧘 Resurtido de Bandas de Glúteos</h4>
+                            <p>Resurtir las bandas de glúteos a mitad de mes <strong>subió la rotación diaria un 16%</strong> (+16.6%) durante la segunda mitad, confirmando su respuesta inmediata al stock físico.</p>
+                        </div>
+                    </div>
+
+                    <table class="mini-ref-table">
+                        <thead>
+                            <tr>
+                                <th>Referencia y Producto</th>
+                                <th>Estrategia / Ubicación en Tienda</th>
+                                <th>Resultado en la 2ª Mitad del Mes (15 al 30 Sep)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Ref. 8576808</strong> - Aro de Fuerza Duro (Handgrip Hard)</td>
+                                <td>Exhibición en Atención al Cliente + Resurtido de stock</td>
+                                <td>Subió su venta diaria un <span class="tag-pos">+177.1%</span> <span class="badge-impact badge-impact-success">👑 Mayor éxito del mes</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ref. 8527897</strong> - Banda de Pilates Media (Medium)</td>
+                                <td>Exhibición en su pasillo natural</td>
+                                <td>Subió su venta diaria un <span class="tag-pos">+50.0%</span> <span class="badge-impact badge-impact-success">▲ Única de su línea en crecer sola</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ref. 8872877</strong> - Pack X3 Bandas de Glúteos</td>
+                                <td>Resurtido de inventario a mitad de mes</td>
+                                <td>Subió su venta diaria un <span class="tag-pos">+16.6%</span> <span class="badge-impact badge-impact-success">▲ Respuesta inmediata al stock</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ref. 8528803</strong> - Banda Elástica Tricolor</td>
+                                <td>Cajas, pasillo natural y maniquí de fútbol</td>
+                                <td><strong>#1 en unidades vendidas del mes</strong> (-20.6% en la 2ª mitad al estabilizarse) <span class="badge-impact badge-impact-info">⭐ Líder en volumen</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- FAMILIA 12072: MANCUERNAS PVC -->
+            <div class="accordion-item active">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="acc-title-group">
+                        <div class="acc-icon">🏋️</div>
+                        <div>
+                            <span class="acc-family-name">Mancuernas PVC</span>
+                            <span class="acc-family-id">Familia 12072</span>
+                        </div>
+                    </div>
+                    <div class="acc-one-liner">
+                        <span class="acc-action-pill">⚡ Acción: 2kg en Cajas</span>
+                        <span class="acc-arrow">→</span>
+                        <span class="acc-result-pill">🛡️ Resultado: Sostuvo la venta mensual</span>
+                    </div>
+                    <span class="acc-chevron">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="commercial-highlights">
+                        <div class="highlight-box">
+                            <h4>🎯 Mancuerna de 2kg Fija en Cajas</h4>
+                            <p>Dejar la mancuerna de 2kg fija en cajas fue la <strong>estrategia más estable para sostener el dinero todo el mes</strong>, logrando la menor variación en la segunda mitad (-15.8%).</p>
+                        </div>
+                        <div class="highlight-box box-blue">
+                            <h4>📦 Llenado Masivo de 10 Días en Pasillo de Fuerza</h4>
+                            <p>Llenar el pasillo los primeros 10 días trajo <strong>ventas altísimas inmediatas para los pesos grandes (3kg y 5kg)</strong>, demostrando que funcionan muy bien en campañas cortas de choque.</p>
+                        </div>
+                    </div>
+
+                    <table class="mini-ref-table">
+                        <thead>
+                            <tr>
+                                <th>Referencia y Producto</th>
+                                <th>Estrategia / Ubicación en Tienda</th>
+                                <th>Resultado en la 2ª Mitad del Mes (15 al 30 Sep)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Ref. 8336573</strong> - Mancuerna PVC de 2kg</td>
+                                <td>Ubicación fija en Cajas (Compra por impulso)</td>
+                                <td>Sostuvo la venta mensual (solo varió <strong>-15.8%</strong> en la 2ª mitad) <span class="badge-impact badge-impact-info">🛡️ La más estable de la familia</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mancuernas PVC de 3kg y 5kg</strong></td>
+                                <td>Llenado masivo en Pasillo de Fuerza (primeros 10 días)</td>
+                                <td>Fuerte pico inicial; en la 2ª mitad bajaron <span class="tag-neg">-40.3% (3kg) y -44.7% (5kg)</span> <span class="badge-impact badge-impact-neutral">Ideales para campañas cortas</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- FAMILIA 278: GUANTES Y MUÑEQUERAS -->
+            <div class="accordion-item active">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="acc-title-group">
+                        <div class="acc-icon">🥊</div>
+                        <div>
+                            <span class="acc-family-name">Guantes y Muñequeras</span>
+                            <span class="acc-family-id">Familia 278</span>
+                        </div>
+                    </div>
+                    <div class="acc-one-liner">
+                        <span class="acc-action-pill">⚡ Acción: Guante Negro en Zona Caliente</span>
+                        <span class="acc-arrow">→</span>
+                        <span class="acc-result-pill">💰 Resultado: +34% crecimiento</span>
+                    </div>
+                    <span class="acc-chevron">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <div class="commercial-highlights">
+                        <div class="highlight-box">
+                            <h4>🔥 Guante Negro en Zona Comercial</h4>
+                            <p>Poner el guante negro en zona comercial de alto tráfico fue la <strong>acción más rentable (+34% de crecimiento en venta diaria)</strong>, pasando de $1.24M COP a $1.90M COP totales.</p>
+                        </div>
+                        <div class="highlight-box box-blue">
+                            <h4>📐 Inventario Físico y Orden en Semana 1</h4>
+                            <p>Asegurar el inventario físico y orden del lineal en la primera semana <strong>hizo crecer toda la familia un 21%</strong> (+21.2%) durante la segunda mitad del mes.</p>
+                        </div>
+                    </div>
+
+                    <table class="mini-ref-table">
+                        <thead>
+                            <tr>
+                                <th>Referencia y Producto</th>
+                                <th>Estrategia / Ubicación en Tienda</th>
+                                <th>Resultado en la 2ª Mitad del Mes (15 al 30 Sep)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Ref. 8883183</strong> - Guante Negro (Lifting Glove Black)</td>
+                                <td>Exhibición extra en Zona Comercial de alto tráfico</td>
+                                <td>Subió su venta diaria un <span class="tag-pos">+34.1%</span> (pasó de $1.24M a $1.90M COP) <span class="badge-impact badge-impact-success">💰 Acción más rentable</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total Familia 278</strong> - Guantes y Muñequeras</td>
+                                <td>Orden de lineal según DAO + Surtido en 1ª semana</td>
+                                <td>Toda la familia creció <span class="tag-pos">+21.2%</span> en venta diaria en la 2ª mitad <span class="badge-impact badge-impact-success">▲ Crecimiento familiar</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ref. 8588907</strong> - Muñequera Gris Carbono</td>
+                                <td>Exhibición cruzada en los primeros 10 días</td>
+                                <td>Gran arranque inicial (en la 2ª mitad varió <strong>-12.5%</strong> diario) <span class="badge-impact badge-impact-neutral">Ideal para arranque de mes</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Dashboard Comercial Septiembre 2026 | Adolfo Jimenez | Tienda 2208 - La Flora</p>
+    </footer>
+
+    <!-- 3. ESTADO DE DATOS (JSON INYECTADO EN JS) Y LÓGICA INTERACTIVA -->
+    <script>
+        // Estado de Datos Oficial de Septiembre 2026
+        const dashboardData = {
+            "periodo": "Septiembre 2026",
+            "kpi_globales": {
+                "ventas_totales": 121175439,
+                "crecimiento_pct": 19.29,
+                "delta_puntos": 23.75
+            },
+            "deportes": [
+                { "id": 610, "nombre": "Fitness", "q1_crecimiento": 15.0, "q2_crecimiento": 31.3 },
+                { "id": 349, "nombre": "Combate", "q1_crecimiento": -18.9, "q2_crecimiento": -5.1 }
+            ],
+            "familias_destacadas": [
+                { "id": 213, "nombre": "Bandas", "accion": "Aros en Atención al Cliente", "resultado": "+177% rotación" },
+                { "id": 12072, "nombre": "Mancuernas", "accion": "2kg en Cajas", "resultado": "Sostuvo la venta mensual" },
+                { "id": 278, "nombre": "Guantes", "accion": "Guante Negro en Zona Caliente", "resultado": "+34% crecimiento" }
+            ]
+        };
+
+        // Formateador de moneda COP
+        function formatCOP(val) {
+            return '$' + val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' COP';
+        }
+
+        // Renderizado de KPIs con Formato Condicional (Verde positivo / Rojo negativo)
+        function renderKPIs(data) {
+            const kpi = data.kpi_globales;
+            const container = document.getElementById('kpi-container');
+            if (!container) return;
+
+            const ventasClass = kpi.ventas_totales >= 0 ? 'kpi-positive' : 'kpi-negative';
+            const progClass = kpi.crecimiento_pct >= 0 ? 'kpi-positive' : 'kpi-negative';
+            const deltaClass = kpi.delta_puntos >= 0 ? 'kpi-positive' : 'kpi-negative';
+
+            const progSign = kpi.crecimiento_pct > 0 ? '+' : '';
+            const deltaSign = kpi.delta_puntos > 0 ? '+' : '';
+
+            container.innerHTML = `
+                <div class="kpi-big-card ${ventasClass}">
+                    <div class="kpi-big-label">
+                        <span>💰 Ventas Totales</span>
+                        <span class="status-pill">${kpi.ventas_totales >= 0 ? 'Resultado Global' : 'Alerta'}</span>
+                    </div>
+                    <div class="kpi-big-value">${formatCOP(kpi.ventas_totales)}</div>
+                    <div class="kpi-big-sub">Facturación acumulada de ${data.periodo}</div>
+                </div>
+
+                <div class="kpi-big-card ${progClass}">
+                    <div class="kpi-big-label">
+                        <span>📈 Crecimiento (Prog)</span>
+                        <span class="status-pill">${kpi.crecimiento_pct >= 0 ? 'Positivo' : 'Negativo'}</span>
+                    </div>
+                    <div class="kpi-big-value">${progSign}${kpi.crecimiento_pct}%</div>
+                    <div class="kpi-big-sub">Crecimiento en ventas frente al año anterior</div>
+                </div>
+
+                <div class="kpi-big-card ${deltaClass}">
+                    <div class="kpi-big-label">
+                        <span>🏆 Ventaja vs Tiendas del País (Delta)</span>
+                        <span class="status-pill">${kpi.delta_puntos >= 0 ? 'Sobre País' : 'Bajo País'}</span>
+                    </div>
+                    <div class="kpi-big-value">${deltaSign}${kpi.delta_puntos} puntos</div>
+                    <div class="kpi-big-sub">Comparación de desempeño frente a las tiendas del país</div>
+                </div>
+            `;
+        }
+
+        // Inicialización del Gráfico de Barras Simple: Fitness (610) vs Combate (349)
+        function initSportsChart(data) {
+            if (typeof Chart === 'undefined') {
+                console.error('Chart.js no está disponible.');
+                return;
+            }
+
+            const ctx = document.getElementById('sportsChart');
+            if (!ctx) return;
+
+            const labels = data.deportes.map(d => `${d.nombre} (${d.id})`);
+            const q1Data = data.deportes.map(d => d.q1_crecimiento);
+            const q2Data = data.deportes.map(d => d.q2_crecimiento);
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: '1ª Mitad del Mes (01 al 14 Sep)',
+                            data: q1Data,
+                            backgroundColor: '#3b82f6',
+                            borderRadius: 8,
+                            barPercentage: 0.65
+                        },
+                        {
+                            label: '2ª Mitad del Mes (15 al 30 Sep)',
+                            data: q2Data,
+                            backgroundColor: '#10b981',
+                            borderRadius: 8,
+                            barPercentage: 0.65
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { boxWidth: 14, font: { size: 13, weight: '600' } }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const val = context.raw;
+                                    return ` Progresión ${context.dataset.label}: ${val > 0 ? '+' : ''}${val}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            grid: { color: '#f1f5f9' },
+                            ticks: {
+                                font: { size: 12, weight: '600' },
+                                callback: function(val) { return (val > 0 ? '+' : '') + val + '%'; }
+                            }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                font: { size: 14, weight: '700' },
+                                color: '#0f172a'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Lógica del Acordeón Interactivo por Familia
+        function toggleAccordion(headerBtn) {
+            const item = headerBtn.parentElement;
+            item.classList.toggle('active');
+        }
+
+        function toggleAllAccordions() {
+            const items = document.querySelectorAll('.accordion-item');
+            const allActive = Array.from(items).every(i => i.classList.contains('active'));
+            items.forEach(item => {
+                if (allActive) {
+                    item.classList.remove('active');
+                } else {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        // Inicializar Vista al Cargar
+        function initDashboard() {
+            renderKPIs(dashboardData);
+            initSportsChart(dashboardData);
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initDashboard);
+        } else {
+            initDashboard();
+        }
+    </script>
+</body>
+</html>
