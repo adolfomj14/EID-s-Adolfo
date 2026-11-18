@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EID Octubre 2026 - Fitness y Combate | Adolfo Jimenez</title>
+    <!-- Chart.js local y CDN como respaldo -->
+    <script src="./chart.umd.min.js"></script>
+    <script>
+        if (typeof Chart === 'undefined') {
+            document.write('<script src="https://cdn.jsdelivr.net/npm/chart.js"><\/script>');
+        }
+    </script>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --primary-bg: #eff6ff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --bg-page: #f8fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --success: #059669;
+            --success-bg: #ecfdf5;
+            --success-border: #a7f3d0;
+            --danger: #dc2626;
+            --danger-bg: #fef2f2;
+            --danger-border: #fecaca;
+            --warning: #d97706;
+            --warning-bg: #fffbeb;
+            --warning-border: #fde68a;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.55;
+            padding-bottom: 56px;
+        }
+
+        /* Top Navigation Bar */
+        .top-navbar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .brand {
+            font-weight: 700;
+            font-size: 17px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        .nav-link:hover {
+            background-color: #f1f5f9;
+            color: var(--text-main);
+        }
+        .nav-link.active {
+            background-color: var(--primary-bg);
+            color: var(--primary-light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 24px auto;
+            padding: 0 20px;
+        }
+
+        /* Header Hero */
+        .hero-card {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.14);
+            color: #93c5fd;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 0.4px;
+        }
+        .hero-info h1 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+        .hero-info p {
+            color: #cbd5e1;
+            font-size: 14.5px;
+            max-width: 720px;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13.5px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-white {
+            background: white;
+            color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+        .btn-white:hover {
+            background: #f8fafc;
+            transform: translateY(-1px);
+        }
+
+        /* Bloque Guía: Qué es este reporte y cómo leerlo */
+        .reader-guide {
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-left: 5px solid var(--primary-light);
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+        .reader-guide-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 12px;
+        }
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 14px;
+        }
+        .guide-item {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 13px;
+            color: #334155;
+        }
+        .guide-item strong {
+            display: block;
+            color: var(--primary);
+            font-size: 13.5px;
+            margin-bottom: 4px;
+        }
+
+        /* KPI Banner (3 bloques grandes) */
+        .summary-banner {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .metric-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 22px;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+        .metric-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 5px;
+            background: var(--primary-light);
+        }
+        .metric-card.success::before { background: var(--success); }
+        .metric-card.warning::before { background: var(--warning); }
+        .metric-card.danger::before { background: var(--danger); }
+
+        .metric-title {
+            font-size: 12.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+        .metric-value {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+        .metric-sub {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 6px;
+            line-height: 1.45;
+        }
+        .tag-positive { color: var(--success); font-weight: 700; }
+        .tag-negative { color: var(--danger); font-weight: 700; }
+
+        /* Contexto Operativo: Mudanza */
+        .context-banner {
+            background: var(--warning-bg);
+            border: 1px solid var(--warning-border);
+            border-left: 5px solid var(--warning);
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-bottom: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+        .context-banner h3 {
+            font-size: 16.5px;
+            font-weight: 800;
+            color: #92400e;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .context-banner p {
+            font-size: 13.5px;
+            color: #78350f;
+            margin-bottom: 12px;
+        }
+        .week-pills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 12px;
+        }
+        .week-pill {
+            background: white;
+            border: 1px solid #fde68a;
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 13px;
+        }
+        .week-pill .week-label {
+            font-size: 11.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #b45309;
+            margin-bottom: 4px;
+        }
+
+        /* Section Headings */
+        .section-header {
+            margin-bottom: 16px;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* Charts Section */
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .chart-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+        }
+        .chart-card h3 {
+            font-size: 16px;
+            color: #0f172a;
+            margin-bottom: 4px;
+            font-weight: 800;
+        }
+        .chart-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .legend-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 3px;
+            vertical-align: middle;
+        }
+        .dot-blue { background-color: #3b82f6; }
+        .dot-green { background-color: #10b981; }
+        .dot-amber { background-color: #f59e0b; }
+
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 290px;
+        }
+
+        /* Strategy Cards: Causa - Acción - Resultado */
+        .strategy-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        .action-card {
+            background: white;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+        .action-card-header {
+            padding: 16px 22px;
+            background: #f8fafc;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .action-card-header h3 {
+            font-size: 17px;
+            color: #0f172a;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .badge-pill {
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .pill-blue { background: var(--primary-bg); color: var(--primary-light); }
+        .pill-green { background: var(--success-bg); color: var(--success); }
+        .pill-amber { background: var(--warning-bg); color: var(--warning); }
+
+        .action-body {
+            padding: 20px 22px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 18px;
+        }
+        .action-column {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .column-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+        }
+        .column-box {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 13.5px;
+            line-height: 1.55;
+            flex: 1;
+            border: 1px solid #e2e8f0;
+        }
+        .box-diag { border-left: 3px solid #64748b; }
+        .box-action { border-left: 3px solid var(--primary-light); }
+        .box-result { border-left: 3px solid var(--success); }
+        .box-learning { border-left: 3px solid var(--warning); }
+
+        .badge-impact {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            margin-left: 4px;
+            white-space: nowrap;
+            vertical-align: middle;
+        }
+        .badge-impact-success { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+        .badge-impact-info { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+        .badge-impact-warning { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+        .badge-impact-neutral { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+
+        /* Tablas */
+        .card-table-wrap {
+            padding: 0 22px 22px;
+        }
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+        }
+        .data-table th, .data-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border);
+        }
+        .data-table th {
+            background-color: #f1f5f9;
+            color: #1e293b;
+            font-weight: 700;
+        }
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table tbody tr:hover { background-color: #f8fafc; }
+
+        /* Callouts / Compromisos */
+        .callout-box {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 20px 24px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+        .callout-icon { font-size: 26px; line-height: 1; }
+        .callout-content h4 {
+            font-size: 15.5px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+        .callout-content ul {
+            padding-left: 18px;
+            font-size: 13.5px;
+            color: #334155;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .callout-success { border-left: 5px solid var(--success); }
+        .callout-info { border-left: 5px solid var(--primary-light); }
+
+        footer {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .hero-card { flex-direction: column; align-items: flex-start; }
+            .charts-container { grid-template-columns: 1fr; }
+            .action-body { grid-template-columns: 1fr; }
+        }
+
+        @media print {
+            .top-navbar, .hero-actions, footer { display: none !important; }
+            body { background: white; color: black; padding-bottom: 0; }
+            .container { max-width: 100%; margin: 0; padding: 0; }
+            .action-card, .chart-card, .reader-guide, .context-banner { break-inside: avoid; box-shadow: none; }
+            .hero-card { background: #1e3a8a !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegación Superior -->
+    <header class="top-navbar">
+        <div class="nav-container">
+            <div class="brand">
+                <span>🏋️</span>
+                <span>EID Desempeño | Adolfo Jimenez</span>
+            </div>
+            <nav class="nav-links">
+                <a href="../index.html" class="nav-link">🏠 Inicio</a>
+                <a href="../Julio/index.html" class="nav-link">📅 Julio</a>
+                <a href="../agosto/index.html" class="nav-link">📅 Agosto</a>
+                <a href="../septiembre/index.html" class="nav-link">📅 Septiembre</a>
+                <a href="./index.html" class="nav-link active">📅 Octubre</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- Cabecera Hero -->
+        <section class="hero-card">
+            <div class="hero-info">
+                <span class="hero-badge">TIENDA 2208 - LA FLORA | DEPORTES 610 (FITNESS) Y 349 (COMBATE)</span>
+                <h1>Evaluación Individual de Desempeño (EID) — Octubre 2026</h1>
+                <p>
+                    Resumen ejecutivo de las decisiones tomadas en tienda física del 1 al 31 de octubre: qué compromisos se ejecutaron desde septiembre, cómo afectó la mudanza interna de la tienda y qué resultados reales produjo cada cambio en ventas.
+                </p>
+            </div>
+            <div class="hero-actions">
+                <a href="./EID_octubre.pdf" target="_blank" class="btn btn-white">📄 Ver Informe Completo (PDF)</a>
+                <button onclick="window.print()" class="btn btn-white">🖨️ Imprimir</button>
+            </div>
+        </section>
+
+        <!-- ¿Qué es y cómo leer esta página? (Claridad para cualquier lector) -->
+        <section class="reader-guide">
+            <div class="reader-guide-header">
+                <span>🧭</span>
+                <span>¿Qué es esta página y qué estoy mostrando aquí?</span>
+            </div>
+            <div class="guide-grid">
+                <div class="guide-item">
+                    <strong>1. ¿Para qué sirve este resumen?</strong>
+                    Es mi evaluación mensual de desempeño comercial. Aquí explico <strong>qué problema detecté en septiembre</strong>, <strong>qué cambio físico hice en la tienda durante octubre</strong> y <strong>qué pasó con las ventas después de hacerlo</strong> (incluyendo tanto los aciertos como los experimentos que enseñaron qué no cambiar).
+                </div>
+                <div class="guide-item">
+                    <strong>2. ¿Cómo leer los dos indicadores?</strong>
+                    <span class="tag-positive">Progresión (%):</span> cuánto crecieron o bajaron las ventas en dinero (CO$) frente al mismo periodo del año pasado.<br>
+                    <span class="tag-positive">Delta (pts vs. País):</span> cuántos puntos de ventaja (o desventaja) tuvo nuestra tienda frente al promedio de las tiendas del país.
+                </div>
+                <div class="guide-item">
+                    <strong>3. ¿Por qué se divide el mes en dos mitades?</strong>
+                    La <strong>1ª Mitad (1 al 15 oct)</strong> muestra cómo arrancó el mes y el impacto de la mudanza de tienda; la <strong>2ª Mitad (16 al 31 oct)</strong> mide el efecto real de los cambios ejecutados a mitad de mes en cabeceras, cajas y pasillos.
+                </div>
+            </div>
+        </section>
+
+        <!-- 3 Bloques KPI Globales del Mes -->
+        <section class="summary-banner">
+            <div class="metric-card success">
+                <div class="metric-title">Facturación Total (610 + 349)</div>
+                <div class="metric-value">$133.614.350 CO$</div>
+                <div class="metric-sub">
+                    <strong>Fitness (610):</strong> $123.233.950 CO$ (92,2%)<br>
+                    <strong>Combate (349):</strong> $10.380.400 CO$ (7,8%)
+                </div>
+            </div>
+
+            <div class="metric-card success">
+                <div class="metric-title">Crecimiento vs. Año Anterior (Prog.)</div>
+                <div class="metric-value tag-positive">+51,12%</div>
+                <div class="metric-sub">
+                    <strong>Fitness (610):</strong> <span class="tag-positive">+60,04%</span> constante todo el mes.<br>
+                    <strong>Combate (349):</strong> <span class="tag-negative">-9,07%</span> (frenó caída de -19,50% a <strong>-1,28%</strong> en 2ª mitad).
+                </div>
+            </div>
+
+            <div class="metric-card success">
+                <div class="metric-title">Ventaja vs. Tiendas del País (Delta)</div>
+                <div class="metric-value tag-positive">+41,96 pts</div>
+                <div class="metric-sub">
+                    <strong>Fitness (610):</strong> <span class="tag-positive">+44,09 pts</span> sobre el país.<br>
+                    <strong>Combate (349):</strong> <span class="tag-positive">+23,08 pts</span> (subió hasta <strong>+32,94 pts</strong> en 2ª mitad).
+                </div>
+            </div>
+        </section>
+
+        <!-- Contexto Operativo: Mudanza de Tienda -->
+        <section class="context-banner">
+            <h3>🚚 Contexto clave del mes: Mudanza interna de tienda (5 al 11 de octubre)</h3>
+            <p>
+                Durante la semana del 5 al 11 de octubre se reorganizó por completo la distribución de la tienda (el traslado principal se hizo en la madrugada del 5 y 6, terminando detalles durante la semana). Así reaccionaron las ventas antes, durante y después del cambio:
+            </p>
+            <div class="week-pills">
+                <div class="week-pill">
+                    <div class="week-label">1. Antes (28 sept - 4 oct)</div>
+                    <strong>Total: $34.529.650 CO$</strong><br>
+                    Prog: <span class="tag-positive">+33,65%</span> | Delta: <span class="tag-positive">+31,70 pts</span><br>
+                    <small>Fitness +36,12% · Combate -1,66%</small>
+                </div>
+                <div class="week-pill" style="border-color: #34d399;">
+                    <div class="week-label" style="color: #065f46;">2. Durante mudanza (5 - 11 oct)</div>
+                    <strong>Total: $29.830.000 CO$</strong><br>
+                    Prog: <span class="tag-positive">+60,05%</span> | Delta: <span class="tag-positive">+46,45 pts</span><br>
+                    <small>Fitness aceleró a <strong>+67,99%</strong> · Combate -3,78%</small>
+                </div>
+                <div class="week-pill">
+                    <div class="week-label">3. Ajuste posterior (12 - 18 oct)</div>
+                    <strong>Total: $27.590.000 CO$</strong><br>
+                    Prog: <span class="tag-positive">+36,45%</span> | Delta: <span class="tag-positive">+22,11 pts</span><br>
+                    <small>Baja transitoria tras el montaje antes del repunte de cierre</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gráficas Comparativas -->
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">📈 Evolución Visual: 1ª Mitad vs. 2ª Mitad del Mes</h2>
+                <div class="section-desc">Cómo evolucionaron los dos deportes y las tres familias intervenidas antes y después de los ajustes de mitad de mes</div>
+            </div>
+        </div>
+
+        <div class="charts-container">
+            <div class="chart-card">
+                <h3>Progresión (%) por Deporte y Familia: 1ª vs. 2ª Mitad</h3>
+                <div class="chart-subtitle">
+                    <span><span class="legend-dot dot-blue"></span> <strong>1ª Mitad</strong> (01-15 Oct)</span>
+                    <span style="color: var(--border);">|</span>
+                    <span><span class="legend-dot dot-green"></span> <strong>2ª Mitad</strong> (16-31 Oct)</span>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="quincenaChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h3>Impacto de la Mudanza por Semanas (Progresión %)</h3>
+                <div class="chart-subtitle">
+                    <span><span class="legend-dot dot-blue"></span> <strong>Antes</strong> (28 Sep-04 Oct)</span>
+                    <span style="color: var(--border);">|</span>
+                    <span><span class="legend-dot dot-green"></span> <strong>Mudanza</strong> (05-11 Oct)</span>
+                    <span style="color: var(--border);">|</span>
+                    <span><span class="legend-dot dot-amber"></span> <strong>Post-Mudanza</strong> (12-18 Oct)</span>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="mudanzaChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estrategias Específicas: Problema -> Qué hice -> Qué logré -->
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">🎯 ¿Qué problema había, qué hice exactamente y qué obtuve?</h2>
+                <div class="section-desc">Explicación directa de las 4 intervenciones realizadas durante octubre (sin rodeos ni suposiciones)</div>
+            </div>
+        </div>
+
+        <div class="strategy-grid">
+
+            <!-- CASO 1: Deporte 349 (Combate) -->
+            <article class="action-card">
+                <div class="action-card-header">
+                    <h3>🥊 1. Deporte 349: Boxeo y Deportes de Combate</h3>
+                    <span class="badge-pill pill-green">Recuperación en 2ª mitad: de -19,50% a -1,28% (+32,94 pts Delta)</span>
+                </div>
+                <div class="action-body">
+                    <div class="action-column">
+                        <span class="column-label">🔍 ¿Qué problema había?</span>
+                        <div class="column-box box-diag">
+                            <p>Combate cerró septiembre cayendo (<strong>-5,1%</strong>) y en la primera quincena de octubre arrancó con una fuerte caída de <strong class="tag-negative">-19,50%</strong> ($3.929.000 CO$).</p>
+                            <p style="margin-top: 8px;">Además, en el lineal los guantes se desordenaban o deterioraban rápido al probarse, afectando la presentación visual (<em>facing</em>).</p>
+                        </div>
+                    </div>
+                    <div class="action-column">
+                        <span class="column-label">⚙️ ¿Qué hice y por qué?</span>
+                        <div class="column-box box-action">
+                            <p><strong>1. Reacomodación del DAO (plano oficial de exhibición):</strong> Organicé la estantería de boxeo adaptándola a la nueva gama temporal que llegó a tienda.</p>
+                            <p style="margin-top: 8px;"><strong>2. Seguridad física y orden:</strong> Aseguré con <strong>pines de seguridad</strong> la mayoría de los guantes de boxeo para garantizar su integridad y evitar que el orden frontal (<em>facing</em>) se dañara tan rápido.</p>
+                        </div>
+                    </div>
+                    <div class="action-column">
+                        <span class="column-label">📊 ¿Qué resultado obtuve?</span>
+                        <div class="column-box box-result">
+                            <p>En la segunda quincena (16-31 oct), las ventas casi empataron el año anterior pasando a <strong class="tag-positive">-1,28%</strong> ($6.451.400 CO$) y subieron a <strong class="tag-positive">+32,94 pts de Delta</strong> frente al país <span class="badge-impact badge-impact-success">▲ +18,22 pts mejora Prog</span>.</p>
+                            <p style="margin-top: 8px;"><strong>Cierre del mes:</strong> $10.380.400 CO$ | Prog: -9,07% | Delta: <strong class="tag-positive">+23,08 pts</strong> sobre las tiendas del país.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- CASO 2: Familia 12072 (Mancuernas PVC) -->
+            <article class="action-card">
+                <div class="action-card-header">
+                    <h3>🏋️ 2. Familia 12072: Mancuernas PVC — El Experimento en Cajas</h3>
+                    <span class="badge-pill pill-blue">Cierre Mes: $25.734.200 CO$ | Prog +90,14% | Delta +44,59 pts</span>
+                </div>
+                <div class="action-body">
+                    <div class="action-column">
+                        <span class="column-label">🔍 ¿Qué problema había?</span>
+                        <div class="column-box box-diag">
+                            <p>En la primera mitad (1-15 oct), aunque la familia crecía +93,63%, las mancuernas de <strong>3 kg (8336581)</strong> iban cayendo en <span class="tag-negative">-9,02%</span> (-8,64 pts Delta).</p>
+                            <p style="margin-top: 8px;">Mientras tanto, las de <strong>2 kg (8336573)</strong> iban fuertes en la nariz de caja (zona de pago) con <strong class="tag-positive">+33,21%</strong> ($1.125.600 CO$).</p>
+                        </div>
+                    </div>
+                    <div class="action-column">
+                        <span class="column-label">⚙️ ¿Qué hice y por qué?</span>
+                        <div class="column-box box-action">
+                            <p><strong>Cambio a mitad de mes en Nariz de Caja:</strong> Inicialmente mantuve fija la mancuerna de 2 kg en cajas tal como estaba comprometido.</p>
+                            <p style="margin-top: 8px;">Sin embargo, para intentar rescatar las pesas de 3 kg de su cifra negativa, a mitad de mes <strong>cambié la nariz de caja de 2 kg por las pesas de 3 kg</strong>.</p>
+                        </div>
+                    </div>
+                    <div class="action-column">
+                        <span class="column-label">📊 ¿Qué resultado obtuve? (Aprendizaje real)</span>
+                        <div class="column-box box-learning">
+                            <p><strong>1. En 3 kg (8336581):</strong> Solo frenó levemente su caída porcentual en la 2ª mitad (-9,02% → <strong>-6,42%</strong>), cerrando el mes en -7,88% ($2.505.600 CO$, Delta -19,25 pts).</p>
+                            <p style="margin-top: 8px;"><strong>2. En 2 kg (8336573):</strong> Al quitarla de cajas, <strong>salió del Top 8 en la 2ª mitad</strong> y su crecimiento mensual cayó de +33,21% a solo <strong>+6,51%</strong> ($1.661.600 CO$).</p>
+                            <p style="margin-top: 8px;"><strong>Conclusión honesta:</strong> El 2 kg sí es el verdadero ancla en cajas y no debe quitarse; el liderazgo mensual lo sostuvo <strong>2*5 kg (8336580)</strong> con $3.836.000 CO$ (+51,02%).</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- CASO 3: Familia 278 (Guantes y Muñequeras) -->
+            <article class="action-card">
+                <div class="action-card-header">
+                    <h3>🧤 3. Familia 278: Guantes y Muñequeras — Rescate en Cabecera</h3>
+                    <span class="badge-pill pill-green">Lifting Glove Brown (8883186): de -81,01% a +32,91% (+82,16 pts Delta)</span>
+                </div>
+                <div class="action-body">
+                    <div class="action-column">
+                        <span class="column-label">🔍 ¿Qué problema había?</span>
+                        <div class="column-box box-diag">
+                            <p>El <strong>Lifting Glove Brown (8883186)</strong> estaba casi frenado en la 1ª mitad: solo facturó <strong>$45.000 CO$</strong> (puesto #22, caída de <span class="tag-negative">-81,01%</span> y Delta -10,23 pts).</p>
+                            <p style="margin-top: 8px;">Además, se presentó ruptura de inventario del <strong>kit de barra de 50 kg</strong> y la muñequera gris había perdido impulso desde septiembre.</p>
+                        </div>
+                    </div>
+                    <div class="action-column">
+                        <span class="column-label">⚙️ ¿Qué hice y por qué?</span>
+                        <div class="column-box box-action">
+                            <p><strong>1. Cabecera estratégica:</strong> El día 15 puse en <strong>cabecera</strong> (punta visible del pasillo) el guante marrón <strong>8883186</strong> para darle máxima exposición.</p>
+                            <p style="margin-top: 8px;"><strong>2. Venta cruzada por sustitución:</strong> Exhibí los <strong>Lifting Straps (8642608)</strong> junto al <strong>kit de barra de 20 kg</strong> aprovechando la falta del de 50 kg.</p>
+                        </div>
+                    </div>
+                    <div class="action-column">
+                        <span class="column-label">📊 ¿Qué resultado obtuve?</span>
+                        <div class="column-box box-result">
+                            <p><strong>Giro del Guante Marrón (8883186):</strong> En la 2ª mitad saltó de $45.000 a <strong class="tag-positive">$270.000 CO$ (x6 ventas, puesto #6)</strong>, cerrando el mes en <strong class="tag-positive">+32,91% y +82,16 pts de Delta</strong> ($315.000 CO$) <span class="badge-impact badge-impact-success">👑 Reversión +113,9 pts</span>.</p>
+                            <p style="margin-top: 8px;"><strong>Lifting Straps (8642608):</strong> Cerraron el mes en <strong>Rank #4 con $810.000 CO$ (+200% Prog | +202,51 pts Delta)</strong>. La familia total cerró en $13.414.600 CO$ (+18,57%).</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- CASO 4: Familia 213 (Bandas y Accesorios) -->
+            <article class="action-card">
+                <div class="action-card-header">
+                    <h3>🎗️ 4. Familia 213: Bandas y Accesorios — Nuevo Pasillo Post-Mudanza</h3>
+                    <span class="badge-pill pill-blue">Reversión Quincenal: de -12,80% (Q1) a +5,42% (Q2)</span>
+                </div>
+                <div class="action-body">
+                    <div class="action-column">
+                        <span class="column-label">🔍 ¿Qué problema había?</span>
+                        <div class="column-box box-diag">
+                            <p>En septiembre las bandas de Pilates habían sufrido fuertes caídas en pasillo y en la primera mitad de octubre toda la familia inició en negativo: <span class="tag-negative">-12,80%</span> ($9.367.650 CO$, Delta -13,58 pts).</p>
+                        </div>
+                    </div>
+                    <div class="action-column">
+                        <span class="column-label">⚙️ ¿Qué hice y por qué?</span>
+                        <div class="column-box box-action">
+                            <p><strong>1. Bandas de Pilates en zonas nuevas:</strong> Las puse en nariz de caja y las multi-implanté en el <strong>nuevo pasillo de calzado fitness</strong> que quedó tras la mudanza.</p>
+                            <p style="margin-top: 8px;"><strong>2. Handgrips en doble punto:</strong> Los multi-implanté en la zona de <strong>Fitness Hombre</strong> y mantuve su exhibición en el mueble de <strong>Atención al Cliente</strong>.</p>
+                        </div>
+                    </div>
+                    <div class="action-column">
+                        <span class="column-label">📊 ¿Qué resultado obtuve?</span>
+                        <div class="column-box box-result">
+                            <p><strong>Vuelta a positivo en la 2ª mitad:</strong> La familia subió a <strong class="tag-positive">+5,42%</strong> ($9.086.500 CO$), destacando <strong>Pilates Medium (8527897)</strong> al #4 con <strong class="tag-positive">+37,14%</strong> (+39,43 pts Delta) y <strong>Glutes Band Pack x3 (8872877)</strong> con <strong class="tag-positive">+683%</strong> (+98,86% mes).</p>
+                            <p style="margin-top: 8px;"><strong>Handgrips (Mes completo):</strong> Todos crecieron en progresión: Super Light <strong>+100%</strong> (+72,71 pts Delta), Medium <strong>+50%</strong> (+7,79 pts Delta) y Hard <strong>+5,71%</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- Tabla Resumen de Cifras clave -->
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">📋 Matriz Rápida de Impacto por Producto y Familia</h2>
+                <div class="section-desc">Comparativa directa de la 1ª mitad (1-15 oct), 2ª mitad (16-31 oct) y cierre mensual</div>
+            </div>
+        </div>
+
+        <div class="card-table-wrap" style="padding: 0; margin-bottom: 30px;">
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Producto / Familia</th>
+                            <th>Acción Realizada</th>
+                            <th>1ª Mitad (1-15 Oct)</th>
+                            <th>2ª Mitad (16-31 Oct)</th>
+                            <th>Cierre Mes (1-31 Oct)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Deporte 349 (Combate)</strong></td>
+                            <td>Nuevo DAO + guantes con pines de seguridad</td>
+                            <td class="tag-negative">-19,50% (+10,43 pts)</td>
+                            <td><strong>-1,28%</strong> (<span class="tag-positive">+32,94 pts</span>) <span class="badge-impact badge-impact-success">▲ +18,2 pts</span></td>
+                            <td>$10.380.400 (-9,07% | +23,08 pts)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ref. 8883186 Lifting Glove Brown</strong></td>
+                            <td>Movido a cabecera desde el día 15</td>
+                            <td class="tag-negative">$45.000 (-81,01%)</td>
+                            <td class="tag-positive"><strong>$270.000</strong> (Rank #6) <span class="badge-impact badge-impact-success">👑 x6 ventas</span></td>
+                            <td class="tag-positive">$315.000 (+32,91% | +82,16 pts)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ref. 8642608 Lifting Strap</strong></td>
+                            <td>Exhibido junto a kit barra 20 kg (sin kit 50 kg)</td>
+                            <td class="tag-positive">$690.000 (+283,33%)</td>
+                            <td>+$120.000 adicionales</td>
+                            <td class="tag-positive">$810.000 (+200% | +202,51 pts)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ref. 8336581 Mancuerna 2*3 kg</strong></td>
+                            <td>Pasada a nariz de caja en 2ª mitad</td>
+                            <td class="tag-negative">$1.392.000 (-9,02%)</td>
+                            <td class="tag-negative">$1.113.600 (-6,42%) <span class="badge-impact badge-impact-warning">Frenó caída leve</span></td>
+                            <td class="tag-negative">$2.505.600 (-7,88% | -19,25 pts)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ref. 8336573 Mancuerna 2*2 kg</strong></td>
+                            <td>Retirada de nariz de caja en 2ª mitad</td>
+                            <td class="tag-positive">$1.125.600 (+33,21%)</td>
+                            <td>Salió Top 8 (+$536.000) <span class="badge-impact badge-impact-neutral">Perdió impulso</span></td>
+                            <td>$1.661.600 (+6,51% | -10,46 pts)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fam. 213 Bandas y Accesorios</strong></td>
+                            <td>Pilates en cajas y pasillo calzado fitness</td>
+                            <td class="tag-negative">$9.367.650 (-12,80%)</td>
+                            <td class="tag-positive">$9.086.500 (+5,42%) <span class="badge-impact badge-impact-success">▲ Reversión +</span></td>
+                            <td>$18.454.150 (-4,69% | -8,43 pts)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Handgrips (8576806 / 804 / 808)</strong></td>
+                            <td>Atención al Cliente + Fitness Hombre</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td class="tag-positive">Super Light +100% · Med +50% · Hard +5,71%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Conclusiones y Compromisos para Noviembre -->
+        <section class="callout-box callout-success">
+            <div class="callout-icon">💡</div>
+            <div class="callout-content">
+                <h4>Conclusiones y Compromisos para Noviembre</h4>
+                <ul>
+                    <li><strong>1. No sacrificar productos ancla en cajas:</strong> La mancuerna de 2 kg (<code>8336573</code>) debe permanecer fija en nariz de caja. Para reactivar la de 3 kg (<code>8336581</code>), es mejor apoyarla con exhibición cruzada junto a bancos de musculación sin desplazar la de 2 kg.</li>
+                    <li><strong>2. Rotación de cabeceras como salvavidas comercial:</strong> Replicar el esquema del <em>Lifting Glove Brown</em> (de -81% a +32,91%) rotando quincenalmente productos rezagados hacia cabeceras visibles.</li>
+                    <li><strong>3. Cierre positivo en Combate (349):</strong> Mantener los pines de seguridad para conservar el orden visual del nuevo DAO y ejecutar el retanqueo bisemanal estricto de vendas y protectores bucales para cruzar de -1,28% a terreno positivo.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="callout-box callout-info">
+            <div class="callout-icon">📑</div>
+            <div class="callout-content">
+                <h4>Respaldo Documental Completo</h4>
+                <p style="font-size: 13.5px; color: var(--text-muted);">
+                    Si necesitas revisar todas las capturas de pantalla originales extraídas del sistema de tienda (las tablas por semana, los recortes por referencia y el histórico completo de las 3 familias), puedes abrir el informe documental completo en PDF haciendo clic en el botón <strong>"Ver Informe Completo (PDF)"</strong> en la parte superior.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Reporte Individual de Desempeño (EID) — Octubre 2026 | Adolfo Jimenez | Tienda 2208 - La Flora</p>
+    </footer>
+
+    <script>
+        function initOctoberCharts() {
+            if (typeof Chart === 'undefined') {
+                console.error('Chart.js no está disponible.');
+                return;
+            }
+
+            // Gráfica 1: Progresión 1ª Mitad vs 2ª Mitad
+            const elQ = document.getElementById('quincenaChart');
+            if (elQ) {
+                new Chart(elQ, {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            'Fitness (610)',
+                            'Combate (349)',
+                            'Mancuernas (12072)',
+                            'Guantes (278)',
+                            'Bandas (213)'
+                        ],
+                        datasets: [
+                            {
+                                label: '1ª Mitad (01-15 Oct)',
+                                data: [59.79, -19.50, 93.63, 31.56, -12.80],
+                                backgroundColor: '#3b82f6',
+                                borderRadius: 6
+                            },
+                            {
+                                label: '2ª Mitad (16-31 Oct)',
+                                data: [60.33, -1.28, 86.35, 5.43, 5.42],
+                                backgroundColor: '#10b981',
+                                borderRadius: 6
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom', labels: { boxWidth: 14, font: { size: 12 } } },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(ctx) {
+                                        return ` ${ctx.dataset.label}: ${ctx.raw > 0 ? '+' : ''}${ctx.raw}%`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                grid: { color: '#f1f5f9' },
+                                ticks: { callback: val => val + '%' }
+                            },
+                            x: { grid: { display: false } }
+                        }
+                    }
+                });
+            }
+
+            // Gráfica 2: Evolución Semanal alrededor de la Mudanza
+            const elM = document.getElementById('mudanzaChart');
+            if (elM) {
+                new Chart(elM, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Total Deportes', 'Fitness (610)', 'Combate (349)'],
+                        datasets: [
+                            {
+                                label: 'Antes (28 Sep - 04 Oct)',
+                                data: [33.65, 36.12, -1.66],
+                                backgroundColor: '#3b82f6',
+                                borderRadius: 6
+                            },
+                            {
+                                label: 'Mudanza (05 - 11 Oct)',
+                                data: [60.05, 67.99, -3.78],
+                                backgroundColor: '#10b981',
+                                borderRadius: 6
+                            },
+                            {
+                                label: 'Post-Mudanza (12 - 18 Oct)',
+                                data: [36.45, 43.93, -10.73],
+                                backgroundColor: '#f59e0b',
+                                borderRadius: 6
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom', labels: { boxWidth: 14, font: { size: 12 } } },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(ctx) {
+                                        return ` ${ctx.dataset.label}: ${ctx.raw > 0 ? '+' : ''}${ctx.raw}%`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                grid: { color: '#f1f5f9' },
+                                ticks: { callback: val => val + '%' }
+                            },
+                            x: { grid: { display: false } }
+                        }
+                    }
+                });
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initOctoberCharts);
+        } else {
+            initOctoberCharts();
+        }
+    </script>
+</body>
+</html>
